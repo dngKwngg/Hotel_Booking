@@ -11,7 +11,9 @@
 
 1. Spring
 2. MySQL
-3.
+
+### Build
+1. Docker
 
 ## Branch structure
 
@@ -36,6 +38,8 @@
 - Java 17
 - NodeJS
 - Node Package Manager (npm) or Yarn
+- Docker (Desktop)
+- MySQL Server (Suppose the local server is running on port 3309)
 
 ## Installation
 
@@ -72,3 +76,17 @@ npm run dev
 ```
 
 ### Backend (Pending)
+
+- Navigate to backend folder
+
+```jsx
+cd server
+```
+
+- Run Docker compose
+
+```jsx
+docker-compose up --build
+```
+
+- Server will run on port **8080**
