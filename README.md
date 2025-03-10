@@ -11,7 +11,6 @@
 
 1. Spring
 2. MySQL
-3.
 
 ## Branch structure
 
