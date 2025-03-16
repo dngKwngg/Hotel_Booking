@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,14 @@ public class ServerApplication {
 		@GetMapping("/test")
 		public String test(){
 			return "Hello world!";
+		}
+
+		@Value("${app.frontend.url}")
+		private String frontendUrl;
+
+		@GetMapping("/test-config")
+		public String testConfig() {
+			return "Frontend URL is configured as: " + frontendUrl; // Return the value of FRONTEND_URL
 		}
 	}
 }
