@@ -1,6 +1,7 @@
 # ======= Stage 1: Build =======
 FROM maven:3.9.6-amazoncorretto-17 AS builder
 
+# Set the working directory
 WORKDIR /app
 
 # Copy only necessary files first to leverage Docker cache
@@ -23,6 +24,7 @@ RUN ./mvnw package -DskipTests
 # ======= Stage 2: Run =======
 FROM amazoncorretto:17-alpine
 
+# Set the working directory
 WORKDIR /app
 
 # Copy the compiled JAR from the builder stage
