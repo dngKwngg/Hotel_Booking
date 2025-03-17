@@ -10,7 +10,7 @@ const FooterLink = ({ to, label }) => (
 
 const Footer = () => {
     return (
-        <footer className="bg-light text-secondary mt-4 py-4">
+        <footer className="bg-light text-secondary mt-3 py-2 small">
             <Container>
                 <Row className="justify-content-between">
                     <Col md={4} className="mb-3">
@@ -28,7 +28,7 @@ const Footer = () => {
                         <p>Stay updated with our latest trends</p>
                         <Form>
                             <Form.Group className="d-flex">
-                                <Form.Control type="email" placeholder="Enter email" className="me-2" />
+                                <Form.Control type="email" placeholder="Enter email" className="me-2 w-50" />
                                 <Button variant="primary">Subscribe</Button>
                             </Form.Group>
                         </Form>
@@ -36,8 +36,8 @@ const Footer = () => {
                 </Row>
                 <Row className="text-center mt-4">
                     <Col>
-                        <p>Designed and styled by izoogood</p>
-                        <p>&copy; {new Date().getFullYear()} izoogood. All rights reserved.</p>
+                        <p>Designed and styled by DuAnUet</p>
+                        <p>&copy; {new Date().getFullYear()} DuAnUet. All rights reserved.</p>
                     </Col>
                 </Row>
             </Container>
