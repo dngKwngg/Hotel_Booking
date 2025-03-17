@@ -27,12 +27,17 @@ const Register = () => {
     };
 
     return (
-        <Container className="d-flex justify-content-center align-items-center">
+        <Container className="d-flex justify-content-center align-items-center"
+            style={{ minHeight: '100vh', margin: '0 auto', marginTop: '-80px', marginBottom: '-80px' }}>
+
             <Row className="w-100" style={{ maxWidth: '500px' }}>
                 <Col>
                     <Form onSubmit={handleRegisterSubmit} className="p-4 border rounded shadow-sm bg-white">
-                        <h2 className="text-center mb-3">Join the Adventure!</h2>
-                        <p className="text-center text-muted">Create your account and start your journey with us</p>
+                        <h2 className="text-center mb-3"
+                            style={{ fontSize: '30px', fontWeight: 'bold', color: '#0000CC	' }}>Join the Adventure!</h2>
+                        <p className="text-center text-muted"
+                            style={{ fontSize: '16px', marginTop: '-8px', marginBottom: '35px' }}>
+                            Create your account and start your journey with us</p>
                         {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
                         <Row>
                             <Col md={6}>
