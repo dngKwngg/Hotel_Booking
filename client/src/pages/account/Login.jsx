@@ -4,12 +4,13 @@ import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 // import { networkAdapter } from 'services/NetworkAdapter';
 // import React, { useContext } from 'react';
 // import { AuthContext } from 'contexts/AuthContext';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import validations from 'utils/validations';
 
 
 const Login = () => {
     // const context = useContext(AuthContext);
+    const navigate = useNavigate();
     const [loginData, setLoginData] = useState({
         email: '',
         password: '',
@@ -17,35 +18,25 @@ const Login = () => {
 
     const [errorMessage, setErrorMessage] = useState(false);
 
-    /**
-     * Handles input changes for the login form fields.
-     * Updates the loginData state with the field values.
-     * @param {Object} e - The event object from the input field.
-     */
     const handleInputChange = (e) => {
         setLoginData({ ...loginData, [e.target.name]: e.target.value });
     };
 
-    /**
-     * Handles the submission of the login form.
-     * Attempts to authenticate the user with the provided credentials.
-     * Navigates to the user profile on successful login or sets an error message on failure.
-     * @param {Object} e - The event object from the form submission.
-     */
-    const handleLoginSubmit = async (e) => {
-        // e.preventDefault();
 
-        // // if (validations.validate('email', loginData.email)) {
-        // //     const response = await networkAdapter.post('api/users/login', loginData);
-        // //     if (response && response.data.token) {
-        // //         context.triggerAuthCheck();
-        // //         navigate('/user-profile');
-        // //     } else if (response && response.errors.length > 0) {
-        // //         setErrorMessage(response.errors[0]);
-        // //     }
-        // // } else {
-        // //     setErrorMessage(LOGIN_MESSAGES.FAILED);
-        // // }
+    const handleLoginSubmit = async (e) => {
+        e.preventDefault();
+
+        if (validations.validate('email', loginData.email)) {
+            const response = await networkAdapter.post('api/users/login', loginData);
+            if (response && response.data.token) {
+                context.triggerAuthCheck();
+                navigate('/user-profile');
+            } else if (response && response.errors.length > 0) {
+                setErrorMessage(response.errors[0]);
+            }
+        } else {
+            setErrorMessage(LOGIN_MESSAGES.FAILED);
+        }
     };
 
     /**
@@ -53,12 +44,15 @@ const Login = () => {
      */
 
     return (
-        <Container className="d-flex justify-content-center align-items-center mt-3">
+        <Container className="d-flex justify-content-center align-items-center"
+            style={{ minHeight: '100vh', margin: '0 auto', marginTop: '-80px', marginBottom: '-80px' }}>
             <Row className="w-100" style={{ maxWidth: '500px' }}>
                 <Col>
                     <Form onSubmit={handleLoginSubmit} className="p-4 border rounded shadow-sm bg-white">
-                        <h2 className="text-center mb-3">Welcome Back</h2>
-                        <p className="text-center text-muted">Log in to continue to your account</p>
+                        <h2 className="text-center"
+                            style={{ fontSize: '30px', fontWeight: 'bold', color: '#0000CC	' }}>Welcome Back</h2>
+                        <p className="text-center text-muted"
+                            style={{ fontSize: '16px', marginTop: '-8px', marginBottom: '35px' }}>Log in to continue to your account</p>
                         {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
                         <Form.Group className="mb-3">
                             <Form.Control
@@ -80,12 +74,15 @@ const Login = () => {
                                 autoComplete="current-password"
                             />
                         </Form.Group>
-                        <Button variant="primary" type="submit" className="w-100">Log In</Button>
+                        <Button variant="primary" type="submit" className=" w-100">Log In</Button>
                         <div className="text-center mt-3">
-                            <Link to="/forgot-password" className="text-decoration-none text-muted">Forgot your password?</Link>
+                            <Link to="/forgot-password" className="text-decoration-none text-muted hover-text-primary">
+                                Forgot your password?
+                            </Link>
+
                         </div>
                         <hr />
-                        <p className="text-center text-muted">New to HotelBooking?</p>
+                        <p className="text-center text-muted" style={{ fontSize: '16px', marginTop: '-8px', }}>New to HotelBooking?</p>
                         <div className="text-center">
                             <Link to="/register" className="btn btn-outline-primary w-100">Create an account</Link>
                         </div>
@@ -93,7 +90,7 @@ const Login = () => {
 
                 </Col>
             </Row>
-        </Container>
+        </Container >
     );
 };
 
