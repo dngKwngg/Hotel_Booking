@@ -1,53 +1,56 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Tabs, Tab, Button, Container, Row, Col } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAddressCard, faHotel, faCreditCard, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUserProfile, fetchUserBookings, fetchUserPaymentMethods } from '../../store/userSlice';
+import { Container, Row, Col, Nav, Tab, Spinner, Alert } from 'react-bootstrap';
 import BookingPanel from './components/BookingPanel';
-import PaymentMethodsPanel from './components/PaymentMethodsPanel';
 import ProfileDetailsPanel from './components/ProfileDetailsPanel';
+import PaymentMethodsPanel from './components/PaymentMethodsPanel';
+
 const UserProfile = () => {
-    const [isTabsVisible, setIsTabsVisible] = useState(false);
+    const dispatch = useDispatch();
+    const { profile, bookings, paymentMethods, isLoading, error } = useSelector((state) => state.user);
 
-    const navigate = useNavigate();
+    useEffect(() => {
+        dispatch(fetchUserProfile());
+        dispatch(fetchUserBookings());
+        dispatch(fetchUserPaymentMethods());
+    }, [dispatch]);
 
-    const wrapperRef = useRef();
-    const buttonRef = useRef();
-    const onTabsMenuButtonAction = () => {
+    if (isLoading) return <Spinner animation="border" className="d-block mx-auto mt-5" />;
+    if (error) return <Alert variant="danger">{error}</Alert>;
 
-    }
     return (
         <Container className="mt-4">
-            <Row className="justify-content-center">
-                <Col md={8}>
-                    <div className="text-center mb-3">
-                        <Button
-                            ref={buttonRef}
-                            onClick={onTabsMenuButtonAction}
-                            variant="outline-secondary"
-                            className="d-md-none"
-                        >
-                            <FontAwesomeIcon icon={isTabsVisible ? faXmark : faBars} size="lg" />
-                        </Button>
-                    </div>
-
-                    {/* Tabs Component */}
-                    <Tabs defaultActiveKey="profile" className="mb-3">
-                        <Tab eventKey="profile" title={<><FontAwesomeIcon icon={faAddressCard} /> Personal Details</>}>
-                            <ProfileDetailsPanel />
-                        </Tab>
-                        <Tab eventKey="bookings" title={<><FontAwesomeIcon icon={faHotel} /> Bookings</>}>
-                            <BookingPanel />
-                        </Tab>
-                        <Tab eventKey="payments" title={<><FontAwesomeIcon icon={faCreditCard} /> Payment Details</>}>
-                            <PaymentMethodsPanel
-
-
-                            />
-                        </Tab>
-                    </Tabs>
-                </Col>
-            </Row>
+            <Tab.Container defaultActiveKey="profile">
+                <Row>
+                    <Col sm={3}>
+                        <Nav variant="pills" className="flex-column">
+                            <Nav.Item>
+                                <Nav.Link eventKey="profile">Personal Details</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link eventKey="bookings">Bookings</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link eventKey="payments">Payment Methods</Nav.Link>
+                            </Nav.Item>
+                        </Nav>
+                    </Col>
+                    <Col sm={9}>
+                        <Tab.Content>
+                            <Tab.Pane eventKey="profile">
+                                <ProfileDetailsPanel userDetails={profile} />
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="bookings">
+                                <BookingPanel bookings={bookings} />
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="payments">
+                                <PaymentMethodsPanel paymentMethods={paymentMethods} />
+                            </Tab.Pane>
+                        </Tab.Content>
+                    </Col>
+                </Row>
+            </Tab.Container>
         </Container>
     );
 };
