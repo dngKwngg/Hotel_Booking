@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto createUser(UserDto userDto) {
         User user = UserMapper.mapToUser(userDto);
-        User savedUser = userRepository.save(user);
+        User savedUser = userRepository.save(user); // save -> tao moi hoac sua
         return UserMapper.mapToUserDto(savedUser);
     }
 
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
 
-        userRepository.delete(user);
+        userRepository.deleteById(id);
     }
 
     @Override
