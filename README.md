@@ -9,11 +9,15 @@
 
 ### Backend
 
-1. Spring
-2. MySQL
+1. Spring (Spring Boot, Spring Security)
+2. PostgreSQL
 
 ### Build
-1. Docker
+
+- [Docker](https://www.docker.com/)
+- [Neon Database (Cloud Database)](https://neon.tech/)
+- [Render (Cloud Application Platform)](https://render.com/)
+- [Netlify (Hosting Frontend)](https://www.netlify.com/)
 
 ## Branch structure
 
@@ -38,8 +42,6 @@
 - Java 17
 - NodeJS
 - Node Package Manager (npm) or Yarn
-- Docker (Desktop)
-- MySQL Server (Suppose the local server is running on port 3309)
 
 ## Installation
 
@@ -75,7 +77,7 @@ npm i
 npm run dev
 ```
 
-### Backend (Pending)
+### Backend
 
 - Navigate to backend folder
 
@@ -83,10 +85,33 @@ npm run dev
 cd server
 ```
 
-- Run Docker compose
+- Build the project
 
 ```jsx
-docker-compose up --build
+mvn clean install
 ```
 
-- Server will run on port **8080**
+- Run the project on port 8080
+
+### Databases
+
+- Relationship
+
+| **Table** | **Related Table** | **Relationship Type** | **Description**                                                           |
+| --- | --- |-----------------------|---------------------------------------------------------------------------|
+| `roles` | `users` | One-to-Many           | A role can have many users, but a user has only one role.                 |
+| `provinces` | `hotels` | One-to-Many           | A province can have many hotels, but a hotel belongs to one province.     |
+| `hotels` | `rooms` | One-to-Many           | A hotel can have many rooms, but a room belongs to one hotel.             |
+| `hotels` | `hotel_rooms` | One-to-Many           | A hotel can have multiple room types.                                     |
+| `hotels` | `hotel_amenities` | One-to-Many           | A hotel can have multiple amenities.                                      |
+| `room_types` | `hotel_rooms` | One-to-Many           | A room type can be available in multiple hotels.                          |
+| `room_types` | `rooms` | One-to-Many           | A room type can be assigned to multiple rooms.                            |
+| `rooms` | `booking_details` | One-to-Many           | A room can be booked multiple times.                                      |
+| `users` | `bookings` | One-to-Many           | A user can have many bookings, but a booking belongs to one user.         |
+| `hotels` | `bookings` | One-to-Many           | A hotel can have many bookings, but a booking belongs to one hotel.       |
+| `bookings` | `booking_details` | One-to-Many           | A booking can include multiple room bookings.                             |
+| `bookings` | `payments` | One-to-One            | A booking has only one payment record.                                    |
+| `bookings` | `reviews` | One-to-Many           | A booking can have one review, but a review belongs to one user.          |
+| `users` | `reviews` | One-to-Many           | A user can write multiple reviews, but a review belongs to one user.      |
+| `amenities` | `hotel_amenities` | One-to-Many           | An amenity can belong to multiple hotels.                                 |
+| `rooms` | `booking_details` | One-to-Many           | A room can be booked multiple times but belongs to one booking at a time. |
