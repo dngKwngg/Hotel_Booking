@@ -4,6 +4,7 @@ import com.example.demo.dto.UserDto;
 import com.example.demo.enitties.User;
 
 public class UserMapper {
+    // user -> userDto
     public static UserDto mapToUserDto(User user) {
         return new UserDto(
             user.getId(),
@@ -13,7 +14,7 @@ public class UserMapper {
             user.getLastName()
         );
     }
-
+    //userDto -> user
     public static User mapToUser(UserDto userDto) {
         User user = new User();
         user.setId(userDto.getId());
