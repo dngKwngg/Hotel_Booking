@@ -1,96 +1,85 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
-// import { networkAdapter } from 'services/NetworkAdapter';
-// import React, { useContext } from 'react';
-// import { AuthContext } from 'contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
-// import validations from 'utils/validations';
-
+import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button, Container, Row, Col, Alert } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../../store/authSlice';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import Input from '../../components/Input';
+// Schema validation
+const loginSchema = z.object({
+    email: z.string().min(1, 'Email is required').email('Invalid email'),
+    password: z.string().min(6, 'Password must be at least 6 characters'),
+});
 
 const Login = () => {
-    // const context = useContext(AuthContext);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [loginData, setLoginData] = useState({
-        email: '',
-        password: '',
+    const { isLoading, error } = useSelector((state) => state.auth);
+
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        resolver: zodResolver(loginSchema),
+        mode: 'onChange',
     });
 
-    const [errorMessage, setErrorMessage] = useState(false);
-
-    const handleInputChange = (e) => {
-        setLoginData({ ...loginData, [e.target.name]: e.target.value });
-    };
-
-
-    const handleLoginSubmit = async (e) => {
-        e.preventDefault();
-
-        if (validations.validate('email', loginData.email)) {
-            const response = await networkAdapter.post('api/users/login', loginData);
-            if (response && response.data.token) {
-                context.triggerAuthCheck();
-                navigate('/user-profile');
-            } else if (response && response.errors.length > 0) {
-                setErrorMessage(response.errors[0]);
-            }
-        } else {
-            setErrorMessage(LOGIN_MESSAGES.FAILED);
+    const onSubmit = async (data) => {
+        const resultAction = await dispatch(loginUser(data));
+        if (loginUser.fulfilled.match(resultAction)) {
+            navigate('/user-profile'); // Chuyển hướng sau khi login thành công
         }
     };
 
-    /**
-     * Clears the current error message displayed to the user.
-     */
-
     return (
-        <Container className="d-flex justify-content-center align-items-center"
-            style={{ minHeight: '100vh', margin: '0 auto', marginTop: '-80px', marginBottom: '-80px' }}>
+        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
             <Row className="w-100" style={{ maxWidth: '500px' }}>
                 <Col>
-                    <Form onSubmit={handleLoginSubmit} className="p-4 border rounded shadow-sm bg-white">
-                        <h2 className="text-center"
-                            style={{ fontSize: '30px', fontWeight: 'bold', color: '#0000CC	' }}>Welcome Back</h2>
-                        <p className="text-center text-muted"
-                            style={{ fontSize: '16px', marginTop: '-8px', marginBottom: '35px' }}>Log in to continue to your account</p>
-                        {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
-                        <Form.Group className="mb-3">
-                            <Form.Control
-                                type="email"
-                                name="email"
-                                placeholder="Email"
-                                value={loginData.email}
-                                onChange={handleInputChange}
-                                autoComplete="username"
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Control
-                                type="password"
-                                name="password"
-                                placeholder="Password"
-                                value={loginData.password}
-                                onChange={handleInputChange}
-                                autoComplete="current-password"
-                            />
-                        </Form.Group>
-                        <Button variant="primary" type="submit" className=" w-100">Log In</Button>
+                    <form onSubmit={handleSubmit(onSubmit)} className="p-4 border rounded shadow-sm bg-white">
+                        <h2 className="text-center" style={{ fontSize: '30px', fontWeight: 'bold', color: '#0000CC' }}>
+                            Welcome Back
+                        </h2>
+                        <p className="text-center text-muted" style={{ fontSize: '16px' }}>
+                            Log in to continue to your account
+                        </p>
+
+                        {error && <Alert variant="danger">{error}</Alert>}
+
+                        <Input
+                            type="email"
+                            id="email"
+                            placeholder="Email"
+                            register={register('email')}
+                            errorMessage={errors.email?.message}
+                            isInvalid={!!errors.email}
+                        />
+
+                        <Input
+                            type="password"
+                            id="password"
+                            placeholder="Password"
+                            register={register('password')}
+                            errorMessage={errors.password?.message}
+                            isInvalid={!!errors.password}
+                        />
+
+                        <Button type="submit" className="w-100" isLoading={isLoading}>
+                            Log In
+                        </Button>
+
                         <div className="text-center mt-3">
-                            <Link to="/forgot-password" className="text-decoration-none text-muted hover-text-primary">
+                            <Link to="/forgot-password" className="text-decoration-none text-muted">
                                 Forgot your password?
                             </Link>
-
                         </div>
+
                         <hr />
-                        <p className="text-center text-muted" style={{ fontSize: '16px', marginTop: '-8px', }}>New to HotelBooking?</p>
+                        <p className="text-center text-muted">New to HotelBooking?</p>
                         <div className="text-center">
                             <Link to="/register" className="btn btn-outline-primary w-100">Create an account</Link>
                         </div>
-                    </Form>
-
+                    </form>
                 </Col>
             </Row>
-        </Container >
+        </Container>
     );
 };
 
