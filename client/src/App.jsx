@@ -10,7 +10,7 @@ const App = () => {
             <Container className="mt-4">
                 <AppRouters />
             </Container>
-            <Footer />
+            {/* <Footer /> */}
         </>
 
     );
