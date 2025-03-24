@@ -30,7 +30,14 @@ const Register = () => {
     });
 
     const onSubmit = async (data) => {
-        const resultAction = await dispatch(registerUser(data));
+        // console.table(data);
+        const { confirmPassword, ...updatedData } = data;
+        // Spring boot backend requires username field
+        updatedData.username = updatedData.email;
+        // User role: 1 - Admin, 2 - User
+        updatedData.roleId = 2;
+        console.log(confirmPassword)
+        const resultAction = await dispatch(registerUser(updatedData));
         if (registerUser.fulfilled.match(resultAction)) {
             navigate('/login'); // Chuyển hướng sau khi đăng ký thành công
         }
