@@ -27,6 +27,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(name = "phone_number", nullable = false)
+    private String phoneNumber;
+
     // nên đặt tên biến theo convention
     // tên biến trong class sẽ là firstName, nhưng trong CSDL sẽ là first_name
     @Column(name = "first_name", nullable = false)

@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService {
                 requestDto.getUserId(),
                 requestDto.getEmail(),
                 requestDto.getUsername(),
+                requestDto.getPhoneNumber(),
                 requestDto.getFirstName(),
                 requestDto.getLastName(),
                 requestDto.getRoleId()
