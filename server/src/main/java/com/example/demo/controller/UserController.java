@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.UserDto;
+import com.example.demo.dto.request.UserRegisterDto;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,12 +33,12 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @PostMapping // POST /api/v1/users ( phải post cái gì đó lên)
-    @ResponseStatus(HttpStatus.CREATED) // trả về status 201
-    // @RequestBody -> đọc cái gì đó từ body của request
-    public UserDto createUser(@RequestBody UserDto userDto) {
-        return userService.createUser(userDto);
-    }
+//    @PostMapping // POST /api/v1/users ( phải post cái gì đó lên)
+//    @ResponseStatus(HttpStatus.CREATED) // trả về status 201
+//    // @RequestBody -> đọc cái gì đó từ body của request
+//    public UserDto createUser(@RequestBody UserDto userDto) {
+//        return userService.createUser(userDto);
+//    }
 
     @PutMapping("/{id}") // PUT /api/v1/users/{id} sửa thông tin user có id = id
     //PUT /api/v1/users/100

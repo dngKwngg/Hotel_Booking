@@ -1,4 +1,4 @@
-package com.example.demo.enitties;
+package com.example.demo.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,16 +17,25 @@ public class User {
     @Id // @Id sẽ định nghĩa field nào là primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     // @GeneratedValue sẽ định nghĩa cách giá trị id được tạo, với strategy = như code thì hiểu đơn giản là thêm hàng mới thì id + 1
-    private Long id;
+    @Column(name="id")
+    private Long userId;
 
+    @Column(unique = true, nullable = false)
     private String email;
+    @Column(unique = true, nullable = false)
     private String username;
+    @Column(nullable = false)
     private String password;
 
-    @Column(name = "first_name") // nên đặt tên biến theo convention
+    // nên đặt tên biến theo convention
     // tên biến trong class sẽ là firstName, nhưng trong CSDL sẽ là first_name
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
 }

@@ -16,9 +16,10 @@ import lombok.NoArgsConstructor;
 //K chỉ có response
 // cần post gì đó lên -> dùng Dto
 public class UserDto {
-    private Long id;
+    private Long userId;
     private String email;
     private String username;
     private String firstName;
     private String lastName;
+    private Long roleId;
 }
