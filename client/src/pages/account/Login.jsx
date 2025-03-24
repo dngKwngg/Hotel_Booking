@@ -23,7 +23,9 @@ const Login = () => {
     });
 
     const onSubmit = async (data) => {
-        const resultAction = await dispatch(loginUser(data));
+        data.username = data.email;
+        const {email, ...loginData} = data;
+        const resultAction = await dispatch(loginUser(loginData));
         if (loginUser.fulfilled.match(resultAction)) {
             navigate('/user-profile'); // Chuyển hướng sau khi login thành công
         }

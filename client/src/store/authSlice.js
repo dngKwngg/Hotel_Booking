@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || '';
 // Async thunk để login
 export const loginUser = createAsyncThunk('auth/login', async (credentials, { rejectWithValue }) => {
     try {
-        const response = await axios.post('/api/auth/login', credentials, { withCredentials: true });
+        const response = await axios.post(`${BASE_URL}/api/v1/auth/login`, credentials, { withCredentials: true });
         return response.data; // Trả về dữ liệu user nếu thành công
     } catch (error) {
         return rejectWithValue(error.response?.data?.message || 'Login failed');
@@ -12,7 +13,7 @@ export const loginUser = createAsyncThunk('auth/login', async (credentials, { re
 });
 export const registerUser = createAsyncThunk('auth/register', async (userData, { rejectWithValue }) => {
     try {
-        const response = await axios.post('/api/auth/register', userData);
+        const response = await axios.post(`${BASE_URL}/api/v1/auth/register`, userData);
         return response.data;
     } catch (error) {
         return rejectWithValue(error.response?.data?.message || 'Registration failed');
