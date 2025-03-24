@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || '';
 // Async thunk để login
@@ -30,6 +31,7 @@ const authSlice = createSlice({
     reducers: {
         logout: (state) => {
             state.user = null;
+            Cookies.remove("accessToken");
         },
     },
     extraReducers: (builder) => {
@@ -41,6 +43,8 @@ const authSlice = createSlice({
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.user = action.payload;
+
+                Cookies.set("accessToken", action.payload.accessToken, { expires: 1, path: '/' });
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.isLoading = false;
