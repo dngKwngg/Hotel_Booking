@@ -1,115 +1,131 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
-
-// import { networkAdapter } from 'services/NetworkAdapter';
-import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button, Container, Row, Col, Alert } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from '../../store/authSlice';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import Input from '../../components/Input';
+// Schema validation
+const registerSchema = z.object({
+    firstName: z.string().min(1, 'First Name is required'),
+    lastName: z.string().min(1, 'Last Name is required'),
+    email: z.string().email('Invalid email'),
+    phoneNumber: z.string().min(10, 'Invalid phone number'),
+    password: z.string().min(6, 'Password must be at least 6 characters'),
+    confirmPassword: z.string(),
+}).refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+});
 
 const Register = () => {
-    // const navigate = useNavigate();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [registerData, setRegisterData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
-        password: '',
-        confirmPassword: ''
+    const { isLoading, error } = useSelector((state) => state.auth);
+
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        resolver: zodResolver(registerSchema),
+        mode: 'onChange',
     });
-    const [errorMessage, setErrorMessage] = useState(null);
 
-    const handleInputChange = (e) => {
-        setRegisterData({ ...registerData, [e.target.name]: e.target.value });
-    };
-
-    const handleRegisterSubmit = async (e) => {
-
+    const onSubmit = async (data) => {
+        // console.table(data);
+        const { confirmPassword, ...updatedData } = data;
+        // Spring boot backend requires username field
+        updatedData.username = updatedData.email;
+        // User role: 1 - Admin, 2 - User
+        updatedData.roleId = 2;
+        console.log(confirmPassword)
+        const resultAction = await dispatch(registerUser(updatedData));
+        if (registerUser.fulfilled.match(resultAction)) {
+            navigate('/login'); // Chuyển hướng sau khi đăng ký thành công
+        }
     };
 
     return (
-        <Container className="d-flex justify-content-center align-items-center"
-            style={{ minHeight: '100vh', margin: '0 auto', marginTop: '-80px', marginBottom: '-80px' }}>
-
+        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
             <Row className="w-100" style={{ maxWidth: '500px' }}>
                 <Col>
-                    <Form onSubmit={handleRegisterSubmit} className="p-4 border rounded shadow-sm bg-white">
-                        <h2 className="text-center mb-3"
-                            style={{ fontSize: '30px', fontWeight: 'bold', color: '#0000CC	' }}>Join the Adventure!</h2>
-                        <p className="text-center text-muted"
-                            style={{ fontSize: '16px', marginTop: '-8px', marginBottom: '35px' }}>
-                            Create your account and start your journey with us</p>
-                        {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+                    <form onSubmit={handleSubmit(onSubmit)} className="p-4 border rounded shadow-sm bg-white">
+                        <h2 className="text-center mb-3" style={{ fontSize: '30px', fontWeight: 'bold', color: '#0000CC' }}>
+                            Join the Adventure!
+                        </h2>
+                        <p className="text-center text-muted">
+                            Create your account and start your journey with us
+                        </p>
+
+                        {error && <Alert variant="danger">{error}</Alert>}
+
                         <Row>
                             <Col md={6}>
-                                <Form.Group className="mb-3">
-                                    <Form.Control
-                                        type="text"
-                                        name="firstName"
-                                        placeholder="First Name"
-                                        value={registerData.firstName}
-                                        onChange={handleInputChange}
-                                        autoComplete="given-name"
-                                    />
-                                </Form.Group>
+                                <Input
+                                    type="text"
+                                    id="firstName"
+                                    placeholder="First Name"
+                                    register={register('firstName')}
+                                    errorMessage={errors.firstName?.message}
+                                    isInvalid={!!errors.firstName}
+                                />
                             </Col>
                             <Col md={6}>
-                                <Form.Group className="mb-3">
-                                    <Form.Control
-                                        type="text"
-                                        name="lastName"
-                                        placeholder="Last Name"
-                                        value={registerData.lastName}
-                                        onChange={handleInputChange}
-                                        autoComplete="family-name"
-                                    />
-                                </Form.Group>
+                                <Input
+                                    type="text"
+                                    id="lastName"
+                                    placeholder="Last Name"
+                                    register={register('lastName')}
+                                    errorMessage={errors.lastName?.message}
+                                    isInvalid={!!errors.lastName}
+                                />
                             </Col>
                         </Row>
-                        <Form.Group className="mb-3">
-                            <Form.Control
-                                type="email"
-                                name="email"
-                                placeholder="Email"
-                                value={registerData.email}
-                                onChange={handleInputChange}
-                                autoComplete="email"
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Control
-                                type="text"
-                                name="phoneNumber"
-                                placeholder="Phone"
-                                value={registerData.phoneNumber}
-                                onChange={handleInputChange}
-                                autoComplete="tel"
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Control
-                                type="password"
-                                name="password"
-                                placeholder="Password"
-                                value={registerData.password}
-                                onChange={handleInputChange}
-                                autoComplete="new-password"
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Control
-                                type="password"
-                                name="confirmPassword"
-                                placeholder="Confirm Password"
-                                value={registerData.confirmPassword}
-                                onChange={handleInputChange}
-                                autoComplete="new-password"
-                            />
-                        </Form.Group>
-                        <Button variant="primary" type="submit" className="w-100">Register</Button>
+
+                        <Input
+                            type="email"
+                            id="email"
+                            placeholder="Email"
+                            register={register('email')}
+                            errorMessage={errors.email?.message}
+                            isInvalid={!!errors.email}
+                        />
+
+                        <Input
+                            type="text"
+                            id="phoneNumber"
+                            placeholder="Phone"
+                            register={register('phoneNumber')}
+                            errorMessage={errors.phoneNumber?.message}
+                            isInvalid={!!errors.phoneNumber}
+                        />
+
+                        <Input
+                            type="password"
+                            id="password"
+                            placeholder="Password"
+                            register={register('password')}
+                            errorMessage={errors.password?.message}
+                            isInvalid={!!errors.password}
+                        />
+
+                        <Input
+                            type="password"
+                            id="confirmPassword"
+                            placeholder="Confirm Password"
+                            register={register('confirmPassword')}
+                            errorMessage={errors.confirmPassword?.message}
+                            isInvalid={!!errors.confirmPassword}
+                        />
+
+                        <Button type="submit" className="w-100" isLoading={isLoading}>
+                            Register
+                        </Button>
+
                         <div className="text-center mt-3">
-                            <Link to="/login" className="text-decoration-none text-muted">Back to login</Link>
+                            <Link to="/login" className="text-decoration-none text-muted">
+                                Back to login
+                            </Link>
                         </div>
-                    </Form>
+                    </form>
                 </Col>
             </Row>
         </Container>
