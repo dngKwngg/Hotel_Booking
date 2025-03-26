@@ -51,7 +51,7 @@ CREATE TABLE hotel_rooms (
                              room_id INT NOT NULL,
                             price INT NOT NULL CHECK (price >= 0),
                              number_rooms INT NOT NULL CHECK (number_rooms >= 0),
-                             PRIMARY KEY (hotel_id, room_type_id),
+                             PRIMARY KEY (hotel_id, room_id),
                              FOREIGN KEY (hotel_id) REFERENCES hotels(id) ON DELETE CASCADE,
                              FOREIGN KEY (room_id) REFERENCES rooms(id) ON DELETE CASCADE
 );
