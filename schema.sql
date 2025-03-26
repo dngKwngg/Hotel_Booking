@@ -121,3 +121,17 @@ CREATE TABLE reviews (
                          FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
                          FOREIGN KEY (hotel_id) REFERENCES hotels(id) ON DELETE CASCADE
 );
+
+
+-- 27.03.2025 update
+-- Modify the BOOKINGS TABLE: Ensure checkout is after check-in and restrict status_payment values
+ALTER TABLE bookings
+ADD CONSTRAINT chk_checkout_after_checkin CHECK (checkout_date > checkin_date),
+ADD CONSTRAINT chk_status_payment CHECK (status_payment IN ('pending', 'paid', 'cancelled'));
+
+-- Modify the BOOKING DETAILS TABLE: Add quantity, price_per_night, and total_price
+ALTER TABLE booking_details
+ADD COLUMN quantity INT NOT NULL CHECK (quantity > 0),
+ADD COLUMN price_per_night INT NOT NULL CHECK (price_per_night >= 0),
+ADD COLUMN total_price INT GENERATED ALWAYS AS (quantity * price_per_night) STORED;
+
