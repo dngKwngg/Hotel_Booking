@@ -93,7 +93,7 @@ CREATE TABLE booking_details (
                                  booking_id INT NOT NULL,
                                  room_id INT NOT NULL,
                                  FOREIGN KEY (booking_id) REFERENCES bookings(id) ON DELETE CASCADE,
-                                 FOREIGN KEY (room_id) REFERENCES rooms(id) ON DELETE CASCADE,
+                                 FOREIGN KEY (room_id) REFERENCES rooms(id) ON DELETE CASCADE
 );
 
 -- PAYMENTS TABLE (One-to-One: One booking has one payment)
