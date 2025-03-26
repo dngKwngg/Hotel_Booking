@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 public class RoleServiceImpl implements RoleService {
     private RoleRepository roleRepository;
 
-    @Autowired
     public RoleServiceImpl(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
@@ -24,5 +23,33 @@ public class RoleServiceImpl implements RoleService {
     public List<RoleDto> getAllRoles() {
         List<Role> roles = roleRepository.findAll();
         return roles.stream().map(RoleMapper::mapToRoleDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public RoleDto getRoleById(Long id) {
+        Role role = roleRepository.findById(id).orElseThrow(() -> new RuntimeException("Role not found"));
+        return RoleMapper.mapToRoleDto(role);
+    }
+
+    @Override
+    public RoleDto createRole(RoleDto roleDto) {
+        Role role = RoleMapper.mapToRole(roleDto);
+        Role savedRole = roleRepository.save(role);
+        return RoleMapper.mapToRoleDto(savedRole);
+    }
+
+    @Override
+    public RoleDto updateRole(Long id, RoleDto roleDto) {
+        Role role = roleRepository.findById(id).orElseThrow(() -> new RuntimeException("Role not found"));
+        role.setName(roleDto.getName());
+        role.setDescription(roleDto.getDescription());
+        Role savedRole = roleRepository.save(role);
+        return RoleMapper.mapToRoleDto(savedRole);
+    }
+
+    @Override
+    public void deleteRole(Long id) {
+        Role role = roleRepository.findById(id).orElseThrow(() -> new RuntimeException("Role not found"));
+        roleRepository.deleteById(id);
     }
 }

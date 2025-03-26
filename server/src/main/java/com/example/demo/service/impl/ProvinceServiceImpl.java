@@ -1,11 +1,10 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dto.ProvinceDto;
-import com.example.demo.enitties.Province;
+import com.example.demo.entities.Province;
 import com.example.demo.mapper.ProvinceMapper;
 import com.example.demo.repository.ProvinceRepository;
 import com.example.demo.service.ProvinceService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.stream.Collectors;
 public class ProvinceServiceImpl implements ProvinceService {
     private final ProvinceRepository provinceRepository;
 
-    @Autowired // Tiêm ProvinceRepository vào
+//    @Autowired // Tiêm ProvinceRepository vào
     public ProvinceServiceImpl(ProvinceRepository provinceRepository) {
         this.provinceRepository = provinceRepository;
     }
