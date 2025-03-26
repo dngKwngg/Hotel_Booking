@@ -1,7 +1,7 @@
 package com.example.demo.mapper;
 
 import com.example.demo.dto.ProvinceDto;
-import com.example.demo.enitties.Province;
+import com.example.demo.entities.Province;
 
 public class ProvinceMapper {
     public static ProvinceDto mapToProvinceDto(Province province) {
