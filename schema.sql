@@ -39,33 +39,23 @@ CREATE TABLE hotels (
 );
 
 -- ROOM TYPES TABLE (Independent table for room classification)
-CREATE TABLE room_types (
+CREATE TABLE rooms (
                             id SERIAL PRIMARY KEY,
                             name VARCHAR(255) NOT NULL,
-                            price INT NOT NULL CHECK (price >= 0),
                             description TEXT  -- Details about the room type (e.g., "Deluxe room with ocean view")
 );
 
 -- HOTEL ROOMS TABLE (Many-to-Many: A hotel can have many room types, and a room type can belong to many hotels)
 CREATE TABLE hotel_rooms (
                              hotel_id INT NOT NULL,
-                             room_type_id INT NOT NULL,
+                             room_id INT NOT NULL,
+                            price INT NOT NULL CHECK (price >= 0),
                              number_rooms INT NOT NULL CHECK (number_rooms >= 0),
                              PRIMARY KEY (hotel_id, room_type_id),
                              FOREIGN KEY (hotel_id) REFERENCES hotels(id) ON DELETE CASCADE,
-                             FOREIGN KEY (room_type_id) REFERENCES room_types(id) ON DELETE CASCADE
+                             FOREIGN KEY (room_id) REFERENCES rooms(id) ON DELETE CASCADE
 );
 
--- INDIVIDUAL ROOMS TABLE (One-to-Many: A hotel has many rooms)
-CREATE TABLE rooms (
-                       id SERIAL PRIMARY KEY,
-                       hotel_id INT NOT NULL,
-                       room_type_id INT NOT NULL,
-                       room_number VARCHAR(50) UNIQUE NOT NULL,
-                       status VARCHAR(50) DEFAULT 'available',  -- available, booked, under maintenance
-                       FOREIGN KEY (hotel_id) REFERENCES hotels(id) ON DELETE CASCADE,
-                       FOREIGN KEY (room_type_id) REFERENCES room_types(id) ON DELETE CASCADE
-);
 
 -- AMENITIES TABLE (Independent table for amenities)
 CREATE TABLE amenities (
@@ -102,10 +92,8 @@ CREATE TABLE booking_details (
                                  id SERIAL PRIMARY KEY,
                                  booking_id INT NOT NULL,
                                  room_id INT NOT NULL,
-                                 room_type_id INT NOT NULL,
                                  FOREIGN KEY (booking_id) REFERENCES bookings(id) ON DELETE CASCADE,
                                  FOREIGN KEY (room_id) REFERENCES rooms(id) ON DELETE CASCADE,
-                                 FOREIGN KEY (room_type_id) REFERENCES room_types(id) ON DELETE CASCADE
 );
 
 -- PAYMENTS TABLE (One-to-One: One booking has one payment)
