@@ -27,4 +27,10 @@ public class HotelRoom {
     private Long price;
     @Column(name = "number_rooms")
     private Integer numberRooms;
+
+    public HotelRoom(Hotel hotel, Room room) {
+        this.hotel = hotel;
+        this.room = room;
+        this.id = new HotelRoomID(hotel.getHotelId(), room.getRoomId());
+    }
 }
