@@ -1,7 +1,5 @@
 # Hotel Booking - INT3509
-
 ## Stack
-
 ### Frontend
 
 1. Vite
@@ -14,7 +12,7 @@
 
 ### Build
 
-- [Docker](https://www.docker.com/)
+- Docker
 - [Neon Database (Cloud Database)](https://neon.tech/)
 - [Render (Cloud Application Platform)](https://render.com/)
 - [Netlify (Hosting Frontend)](https://www.netlify.com/)
@@ -97,21 +95,18 @@ mvn clean install
 
 - Relationship
 
-| **Table** | **Related Table** | **Relationship Type** | **Description**                                                           |
-| --- | --- |-----------------------|---------------------------------------------------------------------------|
-| `roles` | `users` | One-to-Many           | A role can have many users, but a user has only one role.                 |
-| `provinces` | `hotels` | One-to-Many           | A province can have many hotels, but a hotel belongs to one province.     |
-| `hotels` | `rooms` | One-to-Many           | A hotel can have many rooms, but a room belongs to one hotel.             |
-| `hotels` | `hotel_rooms` | One-to-Many           | A hotel can have multiple room types.                                     |
-| `hotels` | `hotel_amenities` | One-to-Many           | A hotel can have multiple amenities.                                      |
-| `room_types` | `hotel_rooms` | One-to-Many           | A room type can be available in multiple hotels.                          |
-| `room_types` | `rooms` | One-to-Many           | A room type can be assigned to multiple rooms.                            |
-| `rooms` | `booking_details` | One-to-Many           | A room can be booked multiple times.                                      |
-| `users` | `bookings` | One-to-Many           | A user can have many bookings, but a booking belongs to one user.         |
-| `hotels` | `bookings` | One-to-Many           | A hotel can have many bookings, but a booking belongs to one hotel.       |
-| `bookings` | `booking_details` | One-to-Many           | A booking can include multiple room bookings.                             |
-| `bookings` | `payments` | One-to-One            | A booking has only one payment record.                                    |
-| `bookings` | `reviews` | One-to-Many           | A booking can have one review, but a review belongs to one user.          |
-| `users` | `reviews` | One-to-Many           | A user can write multiple reviews, but a review belongs to one user.      |
-| `amenities` | `hotel_amenities` | One-to-Many           | An amenity can belong to multiple hotels.                                 |
-| `rooms` | `booking_details` | One-to-Many           | A room can be booked multiple times but belongs to one booking at a time. |
+| Table Name | Related Table | Relationship Type | Description |
+| --- | --- | --- | --- |
+| roles | users | One-to-Many (1-N) | A role can have multiple users, but each user has only one role. |
+| users | bookings | One-to-Many (1-N) | A user can have multiple bookings, but each booking belongs to one user. |
+| provinces | hotels | One-to-Many (1-N) | A province can have many hotels, but each hotel belongs to one province. |
+| hotels | hotel_rooms | One-to-Many (1-N) | A hotel can have multiple rooms of different types. |
+| hotels | hotel_amenities | Many-to-Many (N-N) | A hotel can have multiple amenities, and an amenity can belong to multiple hotels. |
+| hotels | bookings | One-to-Many (1-N) | A hotel can have many bookings, but each booking belongs to one hotel. |
+| rooms | hotel_rooms | One-to-Many (1-N) | A room type can exist in multiple hotels with different availability and pricing. |
+| bookings | booking_details | One-to-Many (1-N) | A booking can have multiple booking details (rooms booked), but each booking detail belongs to one booking. |
+| booking_details | rooms | Many-to-One (N-1) | Many booking details can be associated with a single room type. |
+| bookings | payments | One-to-One (1-1) | Each booking has one payment record. |
+| users | payments | One-to-Many (1-N) | A user can make multiple payments for different bookings. |
+| users | reviews | One-to-Many (1-N) | A user can write multiple reviews, but each review belongs to one user. |
+| hotels | reviews | One-to-Many (1-N) | A hotel can have multiple reviews, but each review belongs to one hotel. |
