@@ -12,6 +12,7 @@ import java.util.List;
 @RestController // cho phép controller gọi đến api
 @RequestMapping("${api.version}/provinces") // dẫn đến api localhost:8080/api/v1/provinces
 public class ProvinceController {
+
     private ProvinceService provinceService;
 
     @Autowired // Tiêm ProvinceService vào dùng để gọi các hàm trong ProvinceService
@@ -26,7 +27,7 @@ public class ProvinceController {
 
     @GetMapping("/{id}") //GET /api/v1/provinces/{id}
     // PathVariable tự đọc đc {id}
-    public ProvinceDto getProvinceById(Long id) {
+    public ProvinceDto getProvinceById(@PathVariable Long id) {
         return provinceService.getProvinceById(id);
     }
 
