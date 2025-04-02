@@ -7,10 +7,15 @@ import com.example.demo.entities.Room;
 
 public class HotelRoomMapper {
     public static HotelRoomDto mapToHotelRoomDto(HotelRoom hotelRoom) {
-        return new HotelRoomDto(hotelRoom.getHotel().getHotelId(), hotelRoom.getRoom().getRoomId(), hotelRoom.getHotel().getName(), hotelRoom.getRoom().getName());
+        return new HotelRoomDto(
+                hotelRoom.getId().getHotelId(),
+                hotelRoom.getId().getRoomId(),
+                hotelRoom.getPrice(),
+                hotelRoom.getNumberRooms()
+        );
     }
 
-    public static HotelRoom mapToHotelRoom(Hotel hotel, Room room) {
-        return new HotelRoom(hotel, room);
+    public static HotelRoom mapToHotelRoom(Hotel hotel, Room room, HotelRoomDto hotelRoomDto) {
+        return new HotelRoom(hotel, room, hotelRoomDto.getPrice(), hotelRoomDto.getNumberRooms());
     }
 }

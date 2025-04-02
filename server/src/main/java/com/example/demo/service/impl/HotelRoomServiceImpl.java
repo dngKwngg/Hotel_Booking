@@ -54,7 +54,7 @@ public class HotelRoomServiceImpl implements HotelRoomService {
                 () -> new RuntimeException("Room not found")
         );
 
-        HotelRoom hotelRoom = new HotelRoom(hotel, room);
+        HotelRoom hotelRoom = new HotelRoom(hotel, room, hotelRoomDto.getPrice(), hotelRoomDto.getNumberRooms());
         hotelRoomRepository.save(hotelRoom);
         return HotelRoomMapper.mapToHotelRoomDto(hotelRoom);
     }
