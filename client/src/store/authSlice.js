@@ -45,6 +45,7 @@ const authSlice = createSlice({
                 state.user = action.payload;
 
                 Cookies.set("accessToken", action.payload.accessToken, { expires: 1, path: '/' });
+                localStorage.setItem("id", action.payload.user.userId);
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.isLoading = false;

@@ -1,9 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import {axiosInstance} from "../api/axiosInstance.js";
 
 // Async Thunk: Lấy thông tin người dùng
 export const fetchUserProfile = createAsyncThunk("user/fetchUserProfile", async () => {
-    const response = await axios.get("/api/users/profile");
+    const userId = localStorage.getItem("id");
+    const response = await axiosInstance.get(`/users/${userId}`);
     return response.data;
 });
 
