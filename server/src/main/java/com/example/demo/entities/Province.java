@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
 public class Province {
     @Id // định nghĩa field nào là primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // id sẽ tự tăng 1
-    private Long id;
+    @Column(name="id")
+    private Long provinceId;
 
     private String name;
 
