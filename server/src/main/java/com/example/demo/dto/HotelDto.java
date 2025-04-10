@@ -11,5 +11,5 @@ public class HotelDto {
     private Long hotelId;
     private String name;
     private String description;
-    private ProvinceDto province;
+    private Long provinceId;
 }

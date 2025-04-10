@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor // tạo constructor với tất cả các biến
 @NoArgsConstructor // tạo constructor không tham số
 public class ProvinceDto {
-    private Long id;
+    private Long provinceId;
     private String name;
     private String description;
 }

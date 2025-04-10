@@ -28,7 +28,7 @@ public class HotelRoom {
     @Column(name = "number_rooms")
     private Integer numberRooms;
 
-    public HotelRoom(Hotel hotel, Room room) {
+    public HotelRoom(Hotel hotel, Room room, Long price, Integer numberRooms) {
         this.hotel = hotel;
         this.room = room;
         this.id = new HotelRoomID(hotel.getHotelId(), room.getRoomId());
