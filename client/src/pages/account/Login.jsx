@@ -1,11 +1,12 @@
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Container, Row, Col, Alert } from 'react-bootstrap';
+import { Button, Container, Row, Col, Alert, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../store/authSlice';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Input from '../../components/Input';
+
 // Schema validation
 const loginSchema = z.object({
     email: z.string().min(1, 'Email is required').email('Invalid email'),
@@ -24,15 +25,18 @@ const Login = () => {
 
     const onSubmit = async (data) => {
         data.username = data.email;
-        const {email, ...loginData} = data;
-        const resultAction = await dispatch(loginUser(loginData));
-        if (loginUser.fulfilled.match(resultAction)) {
-            navigate('/user-profile'); // Chuyển hướng sau khi login thành công
+        const { email, ...loginData } = data;
+        const res = await dispatch(loginUser(loginData));
+
+        if (res.meta.requestStatus === 'fulfilled') {
+            navigate('/');
+        } else {
+            console.error("Login thất bại:", res.payload);
         }
     };
 
     return (
-        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+        <Container className="d-flex justify-content-center align-items-start" style={{ minHeight: 'calc(100vh - 100px)', marginTop: '120px' }}>
             <Row className="w-100" style={{ maxWidth: '500px' }}>
                 <Col>
                     <form onSubmit={handleSubmit(onSubmit)} className="p-4 border rounded shadow-sm bg-white">
@@ -63,8 +67,22 @@ const Login = () => {
                             isInvalid={!!errors.password}
                         />
 
-                        <Button type="submit" className="w-100" isLoading={isLoading}>
-                            Log In
+                        <Button type="submit" className="w-100" disabled={isLoading}>
+                            {isLoading ? (
+                                <>
+                                    <Spinner
+                                        as="span"
+                                        animation="border"
+                                        size="sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                        className="me-2"
+                                    />
+                                    Loading...
+                                </>
+                            ) : (
+                                'Log In'
+                            )}
                         </Button>
 
                         <div className="text-center mt-3">

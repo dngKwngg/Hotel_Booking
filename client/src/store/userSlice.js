@@ -1,26 +1,48 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+// store/userSlice.js
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { getUserProfile, getUserBookings, getUserPaymentMethods } from '../api/userAPI';
 
-// Async Thunk: Lấy thông tin người dùng
-export const fetchUserProfile = createAsyncThunk("user/fetchUserProfile", async () => {
-    const response = await axios.get("/api/users/profile");
-    return response.data;
-});
+export const fetchUserProfile = createAsyncThunk(
+    'user/fetchUserProfile',
+    async (_, { getState, rejectWithValue }) => {
+        const userId = getState().auth.user?.userId;
+        if (!userId) return rejectWithValue('User ID not found');
+        try {
+            return await getUserProfile(userId);
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || 'Failed to fetch user profile');
+        }
+    }
+);
 
-// Async Thunk: Lấy danh sách bookings
-export const fetchUserBookings = createAsyncThunk("user/fetchBookings", async () => {
-    const response = await axios.get("/api/users/bookings");
-    return response.data.elements;
-});
+export const fetchUserBookings = createAsyncThunk(
+    'user/fetchUserBookings',
+    async (_, { getState, rejectWithValue }) => {
+        const userId = getState().auth.user?.userId;
+        if (!userId) return rejectWithValue('User ID not found');
+        try {
+            return await getUserBookings(userId);
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || 'Failed to fetch bookings');
+        }
+    }
+);
 
-// Async Thunk: Lấy danh sách payment methods
-export const fetchUserPaymentMethods = createAsyncThunk("user/fetchPaymentMethods", async () => {
-    const response = await axios.get("/api/users/payment-methods");
-    return response.data.elements;
-});
+export const fetchUserPaymentMethods = createAsyncThunk(
+    'user/fetchUserPaymentMethods',
+    async (_, { getState, rejectWithValue }) => {
+        const userId = getState().auth.user?.userId;
+        if (!userId) return rejectWithValue('User ID not found');
+        try {
+            return await getUserPaymentMethods(userId);
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || 'Failed to fetch payment methods');
+        }
+    }
+);
 
 const userSlice = createSlice({
-    name: "user",
+    name: 'user',
     initialState: {
         profile: null,
         bookings: [],
@@ -31,9 +53,9 @@ const userSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            // Fetch User Profile
             .addCase(fetchUserProfile.pending, (state) => {
                 state.isLoading = true;
+                state.error = null;
             })
             .addCase(fetchUserProfile.fulfilled, (state, action) => {
                 state.isLoading = false;
@@ -41,12 +63,12 @@ const userSlice = createSlice({
             })
             .addCase(fetchUserProfile.rejected, (state, action) => {
                 state.isLoading = false;
-                state.error = action.error.message;
+                state.error = action.payload;
             })
 
-            // Fetch Bookings
             .addCase(fetchUserBookings.pending, (state) => {
                 state.isLoading = true;
+                state.error = null;
             })
             .addCase(fetchUserBookings.fulfilled, (state, action) => {
                 state.isLoading = false;
@@ -54,12 +76,12 @@ const userSlice = createSlice({
             })
             .addCase(fetchUserBookings.rejected, (state, action) => {
                 state.isLoading = false;
-                state.error = action.error.message;
+                state.error = action.payload;
             })
 
-            // Fetch Payment Methods
             .addCase(fetchUserPaymentMethods.pending, (state) => {
                 state.isLoading = true;
+                state.error = null;
             })
             .addCase(fetchUserPaymentMethods.fulfilled, (state, action) => {
                 state.isLoading = false;
@@ -67,7 +89,7 @@ const userSlice = createSlice({
             })
             .addCase(fetchUserPaymentMethods.rejected, (state, action) => {
                 state.isLoading = false;
-                state.error = action.error.message;
+                state.error = action.payload;
             });
     },
 });

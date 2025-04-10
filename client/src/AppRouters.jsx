@@ -4,6 +4,8 @@ import Hotels from "./pages/Hotels";
 import Login from "./pages/account/Login";
 import Register from "./pages/account/Register";
 import UserProfile from "./pages/account/UserProfile";
+import About from "./pages/About";
+import ChangePassword from "./pages/account/ChangePassword";
 const AppRouters = () => {
     return (
         <Routes>
@@ -12,6 +14,8 @@ const AppRouters = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/user-profile" element={<UserProfile />} />
+            <Route path="about" element={<About />} />
+            <Route path="/change-password" element={<ChangePassword />} />
         </Routes>
     );
 };
