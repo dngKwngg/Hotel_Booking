@@ -21,6 +21,8 @@ public class CorsConfig {
                         .allowedOrigins(frontendUrl) // React app URL
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
+                        .allowedHeaders("Authorization", "Content-Type")
+                        .exposedHeaders("Authorization")
                         .allowCredentials(true);
             }
         };

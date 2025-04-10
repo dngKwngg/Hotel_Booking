@@ -9,12 +9,20 @@ import PaymentMethodsPanel from './components/PaymentMethodsPanel';
 const UserProfile = () => {
     const dispatch = useDispatch();
     const { profile, bookings, paymentMethods, isLoading, error } = useSelector((state) => state.user);
-
+    const { user } = useSelector((state) => state.auth); // lấy user từ auth
+    console.log(user.userId);
     useEffect(() => {
-        dispatch(fetchUserProfile());
-        dispatch(fetchUserBookings());
-        dispatch(fetchUserPaymentMethods());
-    }, [dispatch]);
+        if (user?.userId) {
+            dispatch(fetchUserProfile(user.userId));
+            //dispatch(fetchUserBookings(user.userId));
+            //dispatch(fetchUserPaymentMethods(user.userId));
+        }
+    }, [dispatch, user]);
+    // useEffect(() => {
+    //     dispatch(fetchUserProfile());
+    //     dispatch(fetchUserBookings());
+    //     dispatch(fetchUserPaymentMethods());
+    // }, [dispatch]);
 
     if (isLoading) return <Spinner animation="border" className="d-block mx-auto mt-5" />;
     if (error) return <Alert variant="danger">{error}</Alert>;

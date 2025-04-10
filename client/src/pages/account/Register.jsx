@@ -44,7 +44,7 @@ const Register = () => {
     };
 
     return (
-        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+        <Container className="d-flex justify-content-center align-items-start" style={{ minHeight: 'calc(100vh - 100px)', marginTop: '120px' }}>
             <Row className="w-100" style={{ maxWidth: '500px' }}>
                 <Col>
                     <form onSubmit={handleSubmit(onSubmit)} className="p-4 border rounded shadow-sm bg-white">

@@ -5,15 +5,16 @@ import Container from "react-bootstrap/Container";
 
 const App = () => {
     return (
-        <>
+        <div className="d-flex flex-column min-vh-100">
             <MyNavbar />
-            <Container className="mt-4">
-                <AppRouters />
-            </Container>
-            {/* <Footer /> */}
-        </>
 
+            <div className="flex-grow-1">
+                <AppRouters />
+            </div>
+
+            <Footer />
+        </div>
     );
-}
+};
 
 export default App;
