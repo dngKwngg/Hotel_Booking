@@ -61,10 +61,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto updateUser(Long id, UserDto userDto) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setEmail(userDto.getEmail());
-        user.setUsername(userDto.getUsername());
+//        user.setEmail(userDto.getEmail());
+//        user.setUsername(userDto.getUsername());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
+        user.setPhoneNumber(userDto.getPhoneNumber());
 
         User savedUser = userRepository.save(user);
         return UserMapper.mapToUserDto(savedUser);
