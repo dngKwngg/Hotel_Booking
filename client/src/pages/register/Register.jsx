@@ -2,10 +2,10 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from '../../store/authSlice';
+import { registerUser } from '../../store/auth/authSlice';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import Input from '../../components/Input';
+import Input from '../../components/ux/input/Input';
 // Schema validation
 const registerSchema = z.object({
     firstName: z.string().min(1, 'First Name is required'),
@@ -44,7 +44,7 @@ const Register = () => {
     };
 
     return (
-        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+        <Container className="d-flex justify-content-center align-items-start" style={{ minHeight: 'calc(100vh - 100px)', marginTop: '120px' }}>
             <Row className="w-100" style={{ maxWidth: '500px' }}>
                 <Col>
                     <form onSubmit={handleSubmit(onSubmit)} className="p-4 border rounded shadow-sm bg-white">
