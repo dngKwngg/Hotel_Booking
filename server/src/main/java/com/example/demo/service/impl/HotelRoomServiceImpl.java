@@ -21,7 +21,9 @@ public class HotelRoomServiceImpl implements HotelRoomService {
     private final HotelRepository hotelRepository;
     private final RoomRepository roomRepository;
 
-    public HotelRoomServiceImpl(HotelRoomRepository hotelRoomRepository, HotelRepository hotelRepository, RoomRepository roomRepository) {
+    public HotelRoomServiceImpl(HotelRoomRepository hotelRoomRepository,
+                                HotelRepository hotelRepository,
+                                RoomRepository roomRepository) {
         this.hotelRoomRepository = hotelRoomRepository;
         this.hotelRepository = hotelRepository;
         this.roomRepository = roomRepository;

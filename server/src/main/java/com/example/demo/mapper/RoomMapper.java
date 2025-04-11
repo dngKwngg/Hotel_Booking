@@ -5,10 +5,18 @@ import com.example.demo.entities.Room;
 
 public class RoomMapper {
     public static RoomDto mapToRoomDto(Room room) {
-        return new RoomDto(room.getRoomId(), room.getName(), room.getDescription());
+        return new RoomDto(
+                room.getRoomId(),
+                room.getName(),
+                room.getDescription()
+        );
     }
 
     public static Room mapToRoom(RoomDto roomDto) {
-        return new Room(roomDto.getRoomId(), roomDto.getName(), roomDto.getDescription());
+        return new Room(
+                roomDto.getRoomId(),
+                roomDto.getName(),
+                roomDto.getDescription()
+        );
     }
 }
