@@ -6,6 +6,7 @@ const axiosInstance = axios.create({
     timeout: 10000, // 10 giây timeout
     headers: {
         'Content-Type': 'application/json',
+        // Authorization can be dynamically added using interceptors
     },
     // withCredentials: true, // Gửi cookies nếu cần xác thực session
 });

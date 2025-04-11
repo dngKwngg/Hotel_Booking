@@ -21,7 +21,9 @@ public class HotelRoomServiceImpl implements HotelRoomService {
     private final HotelRepository hotelRepository;
     private final RoomRepository roomRepository;
 
-    public HotelRoomServiceImpl(HotelRoomRepository hotelRoomRepository, HotelRepository hotelRepository, RoomRepository roomRepository) {
+    public HotelRoomServiceImpl(HotelRoomRepository hotelRoomRepository,
+                                HotelRepository hotelRepository,
+                                RoomRepository roomRepository) {
         this.hotelRoomRepository = hotelRoomRepository;
         this.hotelRepository = hotelRepository;
         this.roomRepository = roomRepository;
@@ -54,7 +56,7 @@ public class HotelRoomServiceImpl implements HotelRoomService {
                 () -> new RuntimeException("Room not found")
         );
 
-        HotelRoom hotelRoom = new HotelRoom(hotel, room);
+        HotelRoom hotelRoom = new HotelRoom(hotel, room, hotelRoomDto.getPrice(), hotelRoomDto.getNumberRooms());
         hotelRoomRepository.save(hotelRoom);
         return HotelRoomMapper.mapToHotelRoomDto(hotelRoom);
     }
