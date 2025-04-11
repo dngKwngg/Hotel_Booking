@@ -1,11 +1,11 @@
 import { Routes, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import Hotels from "./pages/Hotels";
-import Login from "./pages/account/Login";
-import Register from "./pages/account/Register";
-import UserProfile from "./pages/account/UserProfile";
-import About from "./pages/About";
-import ChangePassword from "./pages/account/ChangePassword";
+import HomePage from "./pages/home/HomePage";
+import Hotels from "./pages/hotel-list/Hotels";
+import Login from "./pages/login/Login";
+import Register from "./pages/register/Register";
+import UserProfile from "./pages/user-profile/UserProfile";
+import About from "./pages/about-us/About";
+import ChangePassword from "./pages/change-password/ChangePassword";
 const AppRouters = () => {
     return (
         <Routes>
