@@ -3,7 +3,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from './auth/authSlice';
 import userReducer from './user/userSlice';
 import cityReducer from './city/citySlice';
-import hotelReducer from './hotel/hotelSlice';
+import hotelsReducer from './hotel/hotelSlice';
 import nearbyHotelReducer from './hotel/nearbyHotelSlice';
 
 export const store = configureStore({
@@ -11,7 +11,7 @@ export const store = configureStore({
         auth: authReducer,
         user: userReducer,
         city: cityReducer,
-        hotel: hotelReducer,
+        hotels: hotelsReducer,
         nearbyHotels: nearbyHotelReducer
     },
 });

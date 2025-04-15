@@ -37,12 +37,25 @@ export const changePassword = createAsyncThunk(
         }
     }
 )
+export const forgotPassword = createAsyncThunk(
+    'auth/forgotPassword',
+    async (data, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.post('/api/v1/auth/forgot', data);
+            return response;
+        } catch (err) {
+            return rejectWithValue('Invalid email or server error');
+        }
+    }
+);
+
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
         user: JSON.parse(localStorage.getItem('user')) || null,
         isLoading: false,
         error: null,
+        forgotSuccess: false,
     },
     reducers: {
         logout: (state) => {
@@ -50,7 +63,12 @@ const authSlice = createSlice({
             state.error = null;
             state.isLoading = false;
             localStorage.removeItem("user"); // nếu bạn dùng localStorage
-        }
+        },
+        clearAuthState: (state) => {
+            state.loading = false;
+            state.error = '';
+            state.forgotSuccess = false;
+        },
 
     },
     extraReducers: (builder) => {
@@ -88,9 +106,21 @@ const authSlice = createSlice({
             .addCase(registerUser.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
+            })
+            .addCase(forgotPassword.pending, (state) => {
+                state.loading = true;
+                state.error = '';
+            })
+            .addCase(forgotPassword.fulfilled, (state) => {
+                state.loading = false;
+                state.forgotSuccess = true;
+            })
+            .addCase(forgotPassword.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload || 'An error occurred';
             });
     },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, clearAuthState } = authSlice.actions;
 export default authSlice.reducer;
