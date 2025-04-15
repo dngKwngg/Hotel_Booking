@@ -10,28 +10,26 @@ import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 
-const ResultsContainer = (props) => {
-    const {
-        hotelsResults,
-        enableFilters,
-        filtersData,
-        selectedFiltersState,
-        onFiltersUpdate,
-        onClearFiltersAction,
-        sortingFilterOptions,
-        sortByFilterValue,
-        onSortingFilterChange,
-    } = props;
-
-    const isSortingFilterVisible = sortingFilterOptions && sortingFilterOptions.length > 0;
+const ResultsContainer = ({
+    hotelsResults = {},
+    enableFilters = false,
+    filtersData = {},
+    selectedFiltersState = [],
+    onFiltersUpdate = () => { },
+    onClearFiltersAction = () => { },
+    sortingFilterOptions = [],
+    sortByFilterValue,
+    onSortingFilterChange = () => { },
+}) => {
+    const { isLoading = false, data = [] } = hotelsResults;
+    const isSortingFilterVisible = sortingFilterOptions.length > 0;
 
     const [isVerticalFiltersOpen, setIsVerticalFiltersOpen] = useState(false);
-
     const wrapperRef = useRef();
     const buttonRef = useRef();
 
     useOutsideClickHandler(wrapperRef, (event) => {
-        if (!buttonRef.current.contains(event.target)) {
+        if (!buttonRef.current?.contains(event.target)) {
             setIsVerticalFiltersOpen(false);
         }
     });
@@ -43,6 +41,7 @@ const ResultsContainer = (props) => {
     return (
         <Container fluid>
             <Row>
+                {/* 📌 Filter Sidebar */}
                 {enableFilters && selectedFiltersState.length > 0 && (
                     <Col md={3} ref={wrapperRef} className="mb-3">
                         <VerticalFilters
@@ -53,10 +52,11 @@ const ResultsContainer = (props) => {
                         />
                     </Col>
                 )}
-                {enableFilters && filtersData.isLoading && (
+                {enableFilters && filtersData?.isLoading && (
                     <Col md={3}><VerticalFiltersSkeleton /></Col>
                 )}
 
+                {/* 📌 Main Results */}
                 <Col>
                     <Row className="align-items-center mb-3">
                         <Col xs="auto" className="d-md-none mb-2">
@@ -82,13 +82,14 @@ const ResultsContainer = (props) => {
                         </Col>
                     </Row>
 
+                    {/* 📌 Hotels List */}
                     <Row className="gy-3">
-                        {hotelsResults.isLoading ? (
+                        {isLoading ? (
                             Array.from({ length: 5 }, (_, index) => (
                                 <Col key={index} xs={12}><HotelViewCardSkeleton /></Col>
                             ))
-                        ) : hotelsResults.data.length > 0 ? (
-                            hotelsResults.data.map((hotel, index) => (
+                        ) : data.length > 0 ? (
+                            data.map((hotel, index) => (
                                 <Col key={hotel.hotelCode || index} xs={12}>
                                     <HotelViewCard
                                         id={hotel.hotelCode}

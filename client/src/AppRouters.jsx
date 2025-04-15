@@ -6,6 +6,7 @@ import Register from "./pages/register/Register";
 import UserProfile from "./pages/user-profile/UserProfile";
 import About from "./pages/about-us/About";
 import ChangePassword from "./pages/change-password/ChangePassword";
+import ForgotPassword from "./pages/forgot-password/ForgotPassword";
 const AppRouters = () => {
     return (
         <Routes>
@@ -16,6 +17,7 @@ const AppRouters = () => {
             <Route path="/user-profile" element={<UserProfile />} />
             <Route path="about" element={<About />} />
             <Route path="/change-password" element={<ChangePassword />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
         </Routes>
     );
 };
