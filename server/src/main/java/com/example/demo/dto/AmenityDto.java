@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class HotelRoomDto {
-    private Long hotelId;
-    private Long roomId;
-
-    private Long price;
-    private Integer numberRooms;
+public class AmenityDto {
+    private Long amenityId;
+    private String name;
+    private String description;
 }

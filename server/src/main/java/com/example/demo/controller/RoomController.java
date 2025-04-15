@@ -26,10 +26,10 @@ public class RoomController {
         return roomService.getAllRooms();
     }
 
-    // GET /api/v1/rooms/{roomId}
-    @GetMapping("/{roomId}")
-    public RoomDto getRoomById(@PathVariable Long roomId) {
-        return roomService.getRoomById(roomId);
+    // GET /api/v1/rooms/{id}
+    @GetMapping("/{id}")
+    public RoomDto getRoomById(@PathVariable Long id) {
+        return roomService.getRoomById(id);
     }
 
     // POST /api/v1/rooms
@@ -39,16 +39,16 @@ public class RoomController {
         return roomService.createRoom(roomDto);
     }
 
-    // PUT /api/v1/rooms/{roomId}
-    @PutMapping("/{roomId}")
-    public RoomDto updateRoom(@PathVariable Long roomId, @RequestBody RoomDto roomDto) {
-        return roomService.updateRoom(roomId, roomDto);
+    // PUT /api/v1/rooms/{id}
+    @PutMapping("/{id}")
+    public RoomDto updateRoom(@PathVariable Long id, @RequestBody RoomDto roomDto) {
+        return roomService.updateRoom(id, roomDto);
     }
 
-    // DELETE /api/v1/rooms/{roomId}
-    @DeleteMapping("/{roomId}")
-    public ResponseEntity<?> deleteRoom(@PathVariable Long roomId) {
-        roomService.deleteRoom(roomId);
+    // DELETE /api/v1/rooms/{id}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteRoom(@PathVariable Long id) {
+        roomService.deleteRoom(id);
         return ResponseEntity.ok("Room deleted");
     }
 }

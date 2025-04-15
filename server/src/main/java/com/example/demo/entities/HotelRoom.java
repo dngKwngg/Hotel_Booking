@@ -31,6 +31,8 @@ public class HotelRoom {
     public HotelRoom(Hotel hotel, Room room, Long price, Integer numberRooms) {
         this.hotel = hotel;
         this.room = room;
+        this.price = price;
+        this.numberRooms = numberRooms;
         this.id = new HotelRoomID(hotel.getHotelId(), room.getRoomId());
     }
 }
