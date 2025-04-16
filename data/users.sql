@@ -1,0 +1,1 @@
+INSERT INTO public.users (id, email, username, password, phone_number, first_name, last_name, role_id) VALUES (1, 'quang@gmail.com', 'quang@gmail.com', '$2a$12$jixzVW5.ft502RcwpWeGseyxEHeWAGiz1ldwCU1cmHvMVZCkBt3Qe', '9876543210', 'Nguyennnn', 'Dangg Quangggg', 2);
