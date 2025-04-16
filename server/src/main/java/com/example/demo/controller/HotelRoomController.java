@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.HotelRoomDto;
+import com.example.demo.dto.request.HotelRoomRequestDto;
+import com.example.demo.dto.response.HotelRoomResponseDto;
 import com.example.demo.service.HotelRoomService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,24 +19,24 @@ public class HotelRoomController {
     }
 
     @GetMapping
-    public List<HotelRoomDto> getAllHotelRooms() {
+    public List<HotelRoomResponseDto> getAllHotelRooms() {
         return hotelRoomService.getAllHotelRooms();
     }
 
     @GetMapping("/hotel/{hotelId}")
-    public List<HotelRoomDto> getHotelRoomsByHotelId(@PathVariable Long hotelId) {
+    public List<HotelRoomResponseDto> getHotelRoomsByHotelId(@PathVariable Long hotelId) {
         return hotelRoomService.getHotelRoomsByHotelId(hotelId);
     }
 
     @GetMapping("/{hotelId}/{roomId}")
-    public HotelRoomDto getHotelRoomById(@PathVariable Long hotelId, @PathVariable Long roomId) {
+    public HotelRoomResponseDto getHotelRoomById(@PathVariable Long hotelId, @PathVariable Long roomId) {
         return hotelRoomService.getHotelRoomById(hotelId, roomId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public HotelRoomDto createHotelRoom(@RequestBody HotelRoomDto hotelRoomDto) {
-        return hotelRoomService.createHotelRoom(hotelRoomDto);
+    public HotelRoomResponseDto createHotelRoom(@RequestBody HotelRoomRequestDto hotelRoomRequestDto) {
+        return hotelRoomService.createHotelRoom(hotelRoomRequestDto);
     }
 
     @DeleteMapping("/{hotelId}/{roomId}")

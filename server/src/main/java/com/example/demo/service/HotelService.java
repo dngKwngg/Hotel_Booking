@@ -1,14 +1,15 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.HotelDto;
+import com.example.demo.dto.request.HotelRequestDto;
+import com.example.demo.dto.response.HotelResponseDto;
 
 import java.util.List;
 
 public interface HotelService {
-    List<HotelDto> getAllHotels();
-    HotelDto getHotelById(Long id);
-    HotelDto createHotel(HotelDto hotelDto);
-    HotelDto updateHotel(Long id, HotelDto hotelDto);
+    List<HotelResponseDto> getAllHotels();
+    HotelResponseDto getHotelById(Long id);
+    HotelResponseDto createHotel(HotelRequestDto hotelRequestDto);
+    HotelResponseDto updateHotel(Long id, HotelRequestDto hotelRequestDto);
     void deleteById(Long id);
 
 }
