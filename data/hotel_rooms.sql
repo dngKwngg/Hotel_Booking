@@ -7,3 +7,9 @@ INSERT INTO public.hotel_rooms (hotel_id, room_id, price, number_rooms) VALUES (
 INSERT INTO public.hotel_rooms (hotel_id, room_id, price, number_rooms) VALUES (4, 6, 1118000, 2);
 INSERT INTO public.hotel_rooms (hotel_id, room_id, price, number_rooms) VALUES (4, 2, 1249000, 2);
 INSERT INTO public.hotel_rooms (hotel_id, room_id, price, number_rooms) VALUES (4, 3, 1315000, 3);
+INSERT INTO public.hotel_rooms (hotel_id, room_id, price, number_rooms) VALUES (6, 6, 1256000, 2);
+INSERT INTO public.hotel_rooms (hotel_id, room_id, price, number_rooms) VALUES (6, 5, 1016000, 2);
+INSERT INTO public.hotel_rooms (hotel_id, room_id, price, number_rooms) VALUES (6, 7, 957000, 3);
+INSERT INTO public.hotel_rooms (hotel_id, room_id, price, number_rooms) VALUES (7, 1, 471000, 3);
+INSERT INTO public.hotel_rooms (hotel_id, room_id, price, number_rooms) VALUES (7, 5, 579000, 2);
+INSERT INTO public.hotel_rooms (hotel_id, room_id, price, number_rooms) VALUES (7, 8, 868000, 2);
