@@ -34,6 +34,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto createUser(UserRegisterDto requestDto) {
+        String role = "USER";
+        if (requestDto.getRole() != null){
+            role = requestDto.getRole();
+        }
+
         UserDto userDto = new UserDto(
                 requestDto.getUserId(),
                 requestDto.getEmail(),
@@ -41,12 +46,12 @@ public class UserServiceImpl implements UserService {
                 requestDto.getPhoneNumber(),
                 requestDto.getFirstName(),
                 requestDto.getLastName(),
-                requestDto.getRoleId()
+                role
         );
 
-        Role role = roleRepository.findById(requestDto.getRoleId()).orElseThrow(() -> new RuntimeException("Role not found"));
+//        Role role = roleRepository.findById(requestDto.getRoleId()).orElseThrow(() -> new RuntimeException("Role not found"));
 
-        User user = UserMapper.mapToUser(userDto, role);
+        User user = UserMapper.mapToUser(userDto);
 
         // hash requestDto.getPassword
         // temp bcrypt

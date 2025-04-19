@@ -66,7 +66,7 @@ const ProfileDetailsPanel = ({ userDetails }) => {
 
     const onSubmit = async (data) => {
         const id = user.userId;
-        console.log("id: ", id, "data:", data);
+        console.table(data);
         const resultAction = await dispatch(updateProfile(id, data));
         if (updateProfile.fulfilled.match(resultAction)) {
             setToastMessage({ type: 'success', message: 'Profile updated successfully!' });
