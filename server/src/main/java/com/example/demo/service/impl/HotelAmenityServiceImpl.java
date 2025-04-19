@@ -1,12 +1,12 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dto.HotelAmenityDto;
+import com.example.demo.dto.request.HotelAmenityRequestDto;
+import com.example.demo.dto.response.HotelAmenityResponseDto;
 import com.example.demo.entities.*;
 import com.example.demo.mapper.HotelAmenityMapper;
 import com.example.demo.repository.AmenityRepository;
 import com.example.demo.repository.HotelRepository;
 import com.example.demo.service.HotelAmenityService;
-import com.example.demo.service.HotelService;
 import org.springframework.stereotype.Service;
 import com.example.demo.repository.HotelAmenityRepository;
 
@@ -27,14 +27,14 @@ public class HotelAmenityServiceImpl implements HotelAmenityService{
     }
 
     @Override
-    public List<HotelAmenityDto> getAllHotelAmenities() {
+    public List<HotelAmenityResponseDto> getAllHotelAmenities() {
         List<HotelAmenity> hotelAmenities = hotelAmenityRepository.findAll();
         return hotelAmenities.stream()
         .map(hotelAmenity -> HotelAmenityMapper.mapToHotelAmenityDto(hotelAmenity))
                 .collect(Collectors.toList());
     }
     @Override
-    public HotelAmenityDto getHotelAmenityById(Long hotelId, Long amenityId) {
+    public HotelAmenityResponseDto getHotelAmenityById(Long hotelId, Long amenityId) {
         HotelAmenityID id = new HotelAmenityID(hotelId, amenityId);
         HotelAmenity hotelAmenity = hotelAmenityRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("Hotel amenity not found")
@@ -42,9 +42,9 @@ public class HotelAmenityServiceImpl implements HotelAmenityService{
         return HotelAmenityMapper.mapToHotelAmenityDto(hotelAmenity);
     }
     @Override
-    public HotelAmenityDto createHotelAmenity(HotelAmenityDto hotelAmenityDto) {
-        Hotel hotel = hotelRepository.findById(hotelAmenityDto.getHotelId()).orElseThrow(()-> new RuntimeException("Hotel not found"));
-        Amenity amenity = amenityRepository.findById(hotelAmenityDto.getAmenityId()).orElseThrow(()-> new RuntimeException("Amenity not found"));
+    public HotelAmenityResponseDto createHotelAmenity(HotelAmenityRequestDto hotelAmenityRequestDto) {
+        Hotel hotel = hotelRepository.findById(hotelAmenityRequestDto.getHotelId()).orElseThrow(()-> new RuntimeException("Hotel not found"));
+        Amenity amenity = amenityRepository.findById(hotelAmenityRequestDto.getAmenityId()).orElseThrow(()-> new RuntimeException("Amenity not found"));
 
         HotelAmenity hotelAmenity = new HotelAmenity(hotel, amenity);
         hotelAmenityRepository.save(hotelAmenity);
@@ -60,8 +60,9 @@ public class HotelAmenityServiceImpl implements HotelAmenityService{
         hotelAmenityRepository.deleteById(id);
     }
     @Override
-    public List<HotelAmenityDto> getHotelAmenitiesByHotelId(Long hotelId) {
+    public List<HotelAmenityResponseDto> getHotelAmenitiesByHotelId(Long hotelId) {
         List<HotelAmenity> hotelAmenities = hotelAmenityRepository.findByHotelId(hotelId);
+        System.out.println(hotelAmenities.size());
         return hotelAmenities.stream().map(hotelAmenity -> HotelAmenityMapper.mapToHotelAmenityDto(hotelAmenity))
                 .collect(Collectors.toList());
     }
