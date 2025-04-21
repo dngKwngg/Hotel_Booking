@@ -6,14 +6,14 @@ import com.example.demo.entities.Province;
 public class ProvinceMapper {
     public static ProvinceDto mapToProvinceDto(Province province) {
         return new ProvinceDto(
-            province.getId(),
+            province.getProvinceId(),
             province.getName(),
             province.getDescription()
         );
     }
     public static Province mapToProvince(ProvinceDto provinceDto) {
         return new Province(
-                provinceDto.getId(),
+                provinceDto.getProvinceId(),
                 provinceDto.getName(),
                 provinceDto.getDescription()
         );

@@ -29,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findByUsername(username);
         List<GrantedAuthority> authorityList = new ArrayList<>();
 
-        String roleName = user.getRole().getName();
+        String roleName = user.getRole();
         authorityList.add(new SimpleGrantedAuthority(roleName));
 
         return new UserPrincipal(

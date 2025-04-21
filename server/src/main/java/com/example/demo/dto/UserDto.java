@@ -22,5 +22,5 @@ public class UserDto {
     private String phoneNumber;
     private String firstName;
     private String lastName;
-    private Long roleId;
+    private String role;
 }

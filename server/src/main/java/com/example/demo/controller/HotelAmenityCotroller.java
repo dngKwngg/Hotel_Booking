@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.HotelAmenityDto;
+import com.example.demo.dto.request.HotelAmenityRequestDto;
+import com.example.demo.dto.response.HotelAmenityResponseDto;
 import com.example.demo.service.HotelAmenityService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,24 +17,26 @@ public class HotelAmenityCotroller {
     public HotelAmenityCotroller(HotelAmenityService hotelAmenityService) {
         this.hotelAmenityService = hotelAmenityService;
     }
+
     @GetMapping("/{hotelId}/{amenityId}")
-    public HotelAmenityDto getHotelAmenityById(@PathVariable Long hotelId, @PathVariable Long amenityId) {
+    public HotelAmenityResponseDto getHotelAmenityById(@PathVariable Long hotelId, @PathVariable Long amenityId) {
         return hotelAmenityService.getHotelAmenityById(hotelId, amenityId);
     }
+
     @GetMapping
-    public List<HotelAmenityDto> getAllHotelAmenities() {
+    public List<HotelAmenityResponseDto> getAllHotelAmenities() {
         return hotelAmenityService.getAllHotelAmenities();
     }
 
-    @GetMapping("/{hotelId}")
-    public List<HotelAmenityDto> getHotelAmenitiesByHotelId(@PathVariable Long hotelId) {
+    @GetMapping("/amenity/{hotelId}")
+    public List<HotelAmenityResponseDto> getHotelAmenitiesByHotelId(@PathVariable Long hotelId) {
         return hotelAmenityService.getHotelAmenitiesByHotelId(hotelId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public HotelAmenityDto createHotelAmenity(@RequestBody HotelAmenityDto hotelAmenityDto) {
-        return hotelAmenityService.createHotelAmenity(hotelAmenityDto);
+    public HotelAmenityResponseDto createHotelAmenity(@RequestBody HotelAmenityRequestDto hotelAmenityRequestDto) {
+        return hotelAmenityService.createHotelAmenity(hotelAmenityRequestDto);
     }
 
     @DeleteMapping("/{hotelId}/{amenityId}")

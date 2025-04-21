@@ -135,3 +135,14 @@ ADD COLUMN quantity INT NOT NULL CHECK (quantity > 0),
 ADD COLUMN price_per_night INT NOT NULL CHECK (price_per_night >= 0),
 ADD COLUMN total_price INT GENERATED ALWAYS AS (quantity * price_per_night) STORED;
 
+-- 20.04.2025
+-- Add fields for USER table (To update profile)
+-- Change role_id to role
+ALTER TABLE users
+    ADD COLUMN date_of_birth DATE,
+    ADD COLUMN nationality VARCHAR(100);
+
+ALTER TABLE users
+DROP COLUMN role_id,
+    ADD COLUMN role VARCHAR(10) NOT NULL DEFAULT 'USER' CHECK (role IN ('ADMIN', 'USER'));
+
