@@ -1,15 +1,15 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.HotelAmenityDto;
-import com.example.demo.entities.HotelAmenity;
+import com.example.demo.dto.request.HotelAmenityRequestDto;
+import com.example.demo.dto.response.HotelAmenityResponseDto;
 
 import java.util.List;
 
 public interface HotelAmenityService {
-    List<HotelAmenityDto> getAllHotelAmenities();
-    HotelAmenityDto getHotelAmenityById(Long hotelId, Long amenityId);
-    HotelAmenityDto createHotelAmenity(HotelAmenityDto hotelAmenityDto);
+    List<HotelAmenityResponseDto> getAllHotelAmenities();
+    HotelAmenityResponseDto getHotelAmenityById(Long hotelId, Long amenityId);
+    HotelAmenityResponseDto createHotelAmenity(HotelAmenityRequestDto hotelAmenityRequestDto);
     void deleteHotelAmenity(Long hotelId, Long amenityId);
 
-    List<HotelAmenityDto> getHotelAmenitiesByHotelId(Long hotelId);
+    List<HotelAmenityResponseDto> getHotelAmenitiesByHotelId(Long hotelId);
 }
