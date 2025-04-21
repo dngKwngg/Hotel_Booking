@@ -18,7 +18,7 @@ public class HotelMapper {
         hotel.setHotelId(hotelDto.getHotelId());
         hotel.setName(hotelDto.getName());
         hotel.setDescription(hotelDto.getDescription());
-        hotel.setProvince(ProvinceMapper.mapTpProvince(hotelDto.getProvince()));
+        hotel.setProvince(ProvinceMapper.mapToProvince(hotelDto.getProvince()));
         return hotel;
     }
 }

@@ -11,7 +11,7 @@ public class ProvinceMapper {
             province.getDescription()
         );
     }
-    public static Province mapTpProvince(ProvinceDto provinceDto) {
+    public static Province mapToProvince(ProvinceDto provinceDto) {
         return new Province(
                 provinceDto.getId(),
                 provinceDto.getName(),
