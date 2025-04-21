@@ -109,7 +109,7 @@ CREATE TABLE payments (
                           FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- REVIEWS TABLE (One-to-Many: A user can write multiple reviews)
+-- REVIEWS TABLE (Many-To-One: A user can write multiple reviews)
 CREATE TABLE reviews (
                          id SERIAL PRIMARY KEY,
                          user_id INT NOT NULL,
