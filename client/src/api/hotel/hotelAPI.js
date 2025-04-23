@@ -8,6 +8,7 @@ export const getAllHotels = async () => {
 
 export const getHotelById = async (id) => {
     const response = await axiosInstance.get(`/api/v1/hotels/${id}`);
+    console.log(response.data);
     return response.data;
 };
 

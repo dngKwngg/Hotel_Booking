@@ -7,6 +7,7 @@ import UserProfile from "./pages/user-profile/UserProfile";
 import About from "./pages/about-us/About";
 import ChangePassword from "./pages/change-password/ChangePassword";
 import ForgotPassword from "./pages/forgot-password/ForgotPassword";
+import HotelDetails from "./pages/hotel-detail/HotelDetail";
 const AppRouters = () => {
     return (
         <Routes>
@@ -18,6 +19,7 @@ const AppRouters = () => {
             <Route path="about" element={<About />} />
             <Route path="/change-password" element={<ChangePassword />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
+            <Route path="/hotel/:hotelId" element={<HotelDetails />} />
         </Routes>
     );
 };

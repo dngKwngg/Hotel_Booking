@@ -15,9 +15,7 @@ import { getAvailableCities } from '../../api/homeAPI';
 const HotelsSearch = () => {
     const dispatch = useDispatch();
     const [searchParams, setSearchParams] = useSearchParams();
-
-    const { isLoading, data: hotelList, pagination } = useSelector((state) => state.hotels);
-
+    const { isLoading, hotels: hotelList, pagination } = useSelector((state) => state.hotels);
     const [locationInputValue, setLocationInputValue] = useState(searchParams.get('city') || '');
     const [numGuestsInputValue, setNumGuestsInputValue] = useState(searchParams.get('numGuests') || 1);
     const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });
@@ -106,7 +104,7 @@ const HotelsSearch = () => {
                             <SortByFilter value={sortByFilterValue} onChange={setSortByFilterValue} />
                         </div>
 
-                        {/* {isLoading ? (
+                        {isLoading ? (
                             <div className="text-center py-5">
                                 <Spinner animation="border" variant="warning" />
                             </div>
@@ -115,7 +113,7 @@ const HotelsSearch = () => {
                                 <ResultsContainer hotelsResults={{ data: hotelList }} />
                                 {renderPagination()}
                             </>
-                        )} */}
+                        )}
                     </Col>
                 </Row>
             </Container>
