@@ -1,86 +1,149 @@
-import React, { useState } from 'react';
-import { Form, Button, Card } from 'react-bootstrap';
-import { DateRange } from 'react-date-range';
-import { addDays } from 'date-fns';
+import React, { useState } from "react";
+import { DateRange } from "react-date-range";
+import { addDays } from "date-fns";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
+// import "./HotelBookingDetailsCard.scss";
 
-/**
- * A component that displays the booking details for a hotel, including date range, room type, and pricing.
- *
- * @param {Object} props - The component's props.
- * @param {string} props.hotelCode - The unique code for the hotel.
- */
-const HotelBookingDetailsCard = ({ hotelCode }) => {
+const HotelBookingDetailsCard = ({ hotelDetails }) => {
+    const currentUser = JSON.parse(localStorage.getItem("user"));
+    // console.log("✅ Current User:", currentUser);
+    const [showCalendar, setShowCalendar] = useState(false);
     const [dateRange, setDateRange] = useState([
         {
             startDate: new Date(),
             endDate: addDays(new Date(), 1),
-            key: 'selection',
+            key: "selection",
         },
     ]);
-    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [selectedRoom, setSelectedRoom] = useState(hotelDetails.hotelRooms?.[0]?.roomName || "");
+    const [numRooms, setNumRooms] = useState(1);
+    const [error, setError] = useState("");
+
+    const hotelRooms = hotelDetails?.hotelRooms || [];
+
+    const getRoom = () => hotelRooms.find((r) => r.roomName === selectedRoom);
+    const getRoomPrice = () => getRoom()?.price || 0;
+    const maxAvailable = getRoom()?.numberRooms || 5;
+
+    const nights =
+        (dateRange[0].endDate - dateRange[0].startDate) / (1000 * 60 * 60 * 24) || 1;
+
+    const totalPrice = getRoomPrice() * nights * numRooms;
+
+    const handleBooking = () => {
+        if (!currentUser) {
+            setError("⚠ Bạn cần đăng nhập để đặt phòng.");
+            return;
+        }
+
+        if (numRooms < 1 || nights < 1) {
+            setError("⚠ Vui lòng chọn ngày hợp lệ và số phòng.");
+            return;
+        }
+
+        const bookingData = {
+            userId: currentUser.id,
+            hotelId: hotelDetails.hotelId,
+            roomName: selectedRoom,
+            numRooms,
+            startDate: dateRange[0].startDate,
+            endDate: dateRange[0].endDate,
+            totalPrice,
+        };
+
+        console.log("✅ Booking Data:", bookingData);
+        setError("");
+        // 👉 call API ở đây để gửi bookingData
+        alert("🎉 Đặt phòng thành công!");
+    };
 
     return (
-        <Card className="mx-2 shadow-xl rounded-xl overflow-hidden mt-2 md:mt-0 w-full md:w-[380px]">
-            <Card.Header className="bg-primary text-white text-center py-3">
-                <h2 className="m-0">Booking Details</h2>
-            </Card.Header>
-            <Card.Body className="p-4">
-                {/* Total Price */}
-                <div className="mb-4">
-                    <div className="font-weight-semibold text-gray-800 mb-2">Total Price</div>
-                    <div className="text-2xl font-bold text-indigo-600">
-                        ₹ 10,000
-                    </div>
-                    <div className="text-sm text-green-600 mt-1">
-                        Free cancellation up to 24 hours before check-in
-                    </div>
-                </div>
+        <div className="mx-2 bg-white shadow rounded p-4 border">
+            <h5 className="fw-bold mb-3">Booking Details</h5>
 
-                {/* Dates & Time */}
-                <div className="mb-4">
-                    <div className="font-weight-semibold text-gray-800 mb-2">Dates</div>
-                    <div className="text-gray-600">
-                        <Button
-                            variant="outline-primary"
-                            onClick={() => setShowDatePicker(!showDatePicker)}
-                            className="w-100"
-                        >
-                            Select Dates
-                        </Button>
-                        {showDatePicker && (
-                            <DateRange
-                                editableDateInputs={true}
-                                onChange={(item) => setDateRange([item.selection])}
-                                moveRangeOnFirstSelection={false}
-                                ranges={dateRange}
-                                className="border p-4 rounded-lg shadow-sm mt-3 w-100"
-                            />
-                        )}
-                    </div>
+            {currentUser && (
+                <div className="mb-3 text-success fw-semibold">
+                    Đặt phòng với tài khoản: {currentUser.firstName} {currentUser.lastName}
                 </div>
+            )}
 
-                {/* Reservation */}
-                <div className="mb-4">
-                    <div className="font-weight-semibold text-gray-800 mb-2">Room Type</div>
-                    <Form.Control as="select">
-                        <option value="1 King Bed Standard Non Smoking">
-                            1 King Bed Standard Non Smoking
+            {error && <div className="alert alert-danger py-2">{error}</div>}
+
+            {/* Room Type */}
+            <div className="mb-3">
+                <label className="form-label fw-semibold">Room Type</label>
+                <select
+                    className="form-select"
+                    value={selectedRoom}
+                    onChange={(e) => {
+                        setSelectedRoom(e.target.value);
+                        setNumRooms(1);
+                    }}
+                >
+                    {hotelRooms.map((room, index) => (
+                        <option key={index} value={room.roomName}>
+                            {room.roomName} - {room.price.toLocaleString()} VND
                         </option>
-                    </Form.Control>
-                </div>
+                    ))}
+                </select>
+            </div>
 
-                {/* Per day rate */}
-                <div className="mb-4">
-                    <div className="font-weight-semibold text-gray-800 mb-2">Per day rate</div>
-                    <div className="text-gray-600">₹ 5000</div>
+            {/* Number of Rooms */}
+            <div className="mb-3">
+                <label className="form-label fw-semibold">Number of Rooms</label>
+                <select
+                    className="form-select"
+                    value={numRooms}
+                    onChange={(e) => setNumRooms(Number(e.target.value))}
+                >
+                    {[...Array(maxAvailable).keys()].map((i) => (
+                        <option key={i + 1} value={i + 1}>
+                            {i + 1}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            {/* Dates */}
+            <div className="mb-3">
+                <label className="form-label fw-semibold">Dates</label>
+                <div
+                    className="border rounded p-2 text-muted"
+                    onClick={() => setShowCalendar(!showCalendar)}
+                    style={{ cursor: "pointer" }}
+                >
+                    {dateRange[0].startDate.toLocaleDateString()} -{" "}
+                    {dateRange[0].endDate.toLocaleDateString()}
                 </div>
-            </Card.Body>
-            <Card.Footer className="bg-gray-50 text-center py-4">
-                <Button className="w-100 bg-secondary text-white py-2 rounded hover:bg-yellow-600 transition duration-300">
-                    Confirm Booking
-                </Button>
-            </Card.Footer>
-        </Card>
+                {showCalendar && (
+                    <div className="mt-2">
+                        <DateRange
+                            editableDateInputs={true}
+                            onChange={(item) => setDateRange([item.selection])}
+                            moveRangeOnFirstSelection={false}
+                            ranges={dateRange}
+                        />
+                    </div>
+                )}
+            </div>
+
+            {/* Total Price */}
+            <div className="my-4 text-center">
+                <div className="fw-semibold">Total Price</div>
+                <div className="h4 text-primary fw-bold">
+                    {totalPrice.toLocaleString()} VND
+                </div>
+                <div className="text-success">
+                    Free cancellation up to 24 hours before check-in
+                </div>
+            </div>
+
+            {/* Confirm Button */}
+            <button className="btn btn-warning w-100 fw-bold" onClick={handleBooking}>
+                Confirm Booking
+            </button>
+        </div>
     );
 };
 

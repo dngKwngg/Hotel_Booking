@@ -3,11 +3,11 @@ import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import HotelBookingDetailsCard from '../hotel-booking-details-card/HotelBookingDetailsCard';
-// import UserReviews from '../user-reviews/UserReviews';
+import UserReviews from '../user-reviews/UserReviews';
 
 const HotelDetailsViewCard = ({ hotelDetails }) => {
     if (!hotelDetails) return null;
-
+    console.log(hotelDetails);
     const {
         title,
         subtitle,
@@ -17,11 +17,6 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
         location,
         distanceFromCenter
     } = hotelDetails;
-
-    // const galleryImages = images.map(img => ({
-    //     original: img.imageUrl,
-    //     thumbnail: img.imageUrl
-    // }));
 
     return (
         <div className="container my-4">
@@ -72,9 +67,9 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
                     </div>
 
                     {/* 👉 Component review */}
-                    {/* <div className="mt-5">
+                    <div className="mt-5">
                         <UserReviews hotelCode={hotelDetails.hotelCode} />
-                    </div> */}
+                    </div>
                 </div>
 
                 {/* Bên phải: Xác nhận đặt phòng */}
