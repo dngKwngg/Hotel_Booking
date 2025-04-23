@@ -2,86 +2,73 @@ import { faStar, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useNavigate } from 'react-router-dom';
 import { formatPrice } from '../../utils/price-helpers';
-/**
- * HotelViewCard Component
- * Renders a card view for a hotel, displaying its image, title, subtitle, benefits, price, and ratings.
- * Provides a 'Book now' button to navigate to the hotel's detailed view.
- *
- * @param {Object} props - Props for the component.
- * @param {string} props.id - The unique code of the hotel.
- * @param {Object} props.image - The image object for the hotel, containing the URL and alt text.
- * @param {string} props.title - The title of the hotel.
- * @param {string} props.subtitle - The subtitle or a short description of the hotel.
- * @param {Array} props.benefits - A list of benefits or features offered by the hotel.
- * @param {string} props.price - The price information for the hotel.
- * @param {number} props.ratings - The ratings of the hotel.
- */
-const HotelViewCard = (props) => {
-    const {
-        id: hotelCode,
-        image,
-        title,
-        subtitle,
-        benefits = [],
-        price,
-        ratings,
-    } = props;
+
+const HotelViewCard = ({
+    hotelId,
+    name,
+    description,
+    hotelRooms = [],
+    hotelAmenities = [],
+}) => {
     const navigate = useNavigate();
+
+    const cheapestRoom = hotelRooms.reduce((min, room) =>
+        room.price < min.price ? room : min,
+        hotelRooms[0]
+    );
+
+    const price = cheapestRoom?.price || 0;
+    const ratings = Math.floor(Math.random() * 3) + 3; // Mock rating: 3 ~ 5
+
     const onBookNowClick = () => {
-        navigate(`/hotel/${hotelCode}`);
+        navigate(`/hotel/${hotelId}`);
     };
 
     return (
-        <div
-            className="card border p-4 flex flex-col md:flex-row gap-x-2 w-full"
-            data-testid="hotel-view-card"
-        >
-            <div className="cursor-pointer">
-                <Link
-                    to={`/hotel/${hotelCode}`}
-                    className="block text-slate-700 hover:text-brand transition-colors duration-300"
-                >
-                    <img
-                        src={image.imageUrl}
-                        alt={image.accessibleText}
-                        className="md:w-[220px] md:h-[140px]"
-                    />
-                </Link>
-            </div>
-            <div className="flex flex-col justify-between ml-0 md:ml-2 flex-1">
-                <div>
-                    <Link
-                        to={`/hotel/${hotelCode}`}
-                        className="block text-slate-700 hover:text-brand transition-colors duration-300"
-                    >
-                        <h4 className="text-2xl font-bold text-slate-600">{title}</h4>
+        <div className="card mb-4 shadow-sm border-0" data-testid="hotel-view-card">
+            <div className="row g-0">
+                <div className="col-md-4">
+                    <Link to={`/hotel/${hotelId}`}>
+                        <img
+                            src="https://kconceptvn.com/wp-content/uploads/2020/04/hotel-photography-chup-anh-khach-san-khach-san-bamboo-sapa-hotel-18-1024x683.jpg"
+                            className="img-fluid h-auto object-fit-cover rounded-start"
+                            style={{ maxHeight: '250px', width: '100%' }}
+                        />
                     </Link>
-                    <p className="text-slate-600 text-sm">{subtitle}</p>
                 </div>
-                <ul>
-                    {benefits.length > 0 &&
-                        benefits.map((benefit, index) => (
-                            <li className="text-green-800 font-medium text-sm" key={index}>
-                                <FontAwesomeIcon icon={faCheck} /> {benefit}
-                            </li>
-                        ))}
-                </ul>
-            </div>
-            <div className="flex flex-col ml-0 md:ml-auto justify-between border-l-0 md:border-l-2 items-stretch pl-0 md:pl-4">
-                <div className="flex justify-between my-3 md:my-0 items-center md:flex-col md:justify-between w-full h-full">
-                    <h4 className="font-medium text-sm text-white bg-brand p-2">
-                        {ratings} <FontAwesomeIcon icon={faStar} />
-                    </h4>
-                    <p className="text-slate-600 font-bold whitespace-nowrap">
-                        ₹ {formatPrice(price)}
-                    </p>
+                <div className="col-md-8 d-flex flex-column justify-content-between">
+                    <div className="card-body">
+                        <Link to={`/hotel/${hotelId}`} className="text-decoration-none text-dark">
+                            <h5 className="card-title fw-bold">{name}</h5>
+                        </Link>
+                        <p className="card-text text-muted">{description}</p>
+                        <ul className="list-unstyled mt-2">
+                            {hotelAmenities.map((amenity) => (
+                                <li key={amenity.amenityId} className="text-success small">
+                                    <FontAwesomeIcon icon={faCheck} className="me-1" />
+                                    {amenity.amenityName}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div className="card-footer bg-white d-flex justify-content-between align-items-center border-0">
+                        <span className="badge bg-primary text-white px-3 py-2" style={{ fontSize: '1rem' }}>
+                            {ratings} <FontAwesomeIcon icon={faStar} className="ms-1" />
+                        </span>
+                        <div className="text-end">
+                            <div className="fw-bold text-dark mb-2" style={{ fontSize: '1rem' }}>
+                                {formatPrice(price)}
+                            </div>
+                            <button
+                                className="btn btn-success btn-lg" // Increase button size
+                                onClick={onBookNowClick}
+                                style={{ fontSize: '1rem', padding: '10px 10px' }} // Increase font size and padding
+                            >
+                                Book now
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <button
-                    className=" bg-brand-secondary px-4 py-2 text-white whitespace-nowrap"
-                    onClick={onBookNowClick}
-                >
-                    Book now
-                </button>
             </div>
         </div>
     );

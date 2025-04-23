@@ -23,7 +23,6 @@ const ResultsContainer = ({
 }) => {
     const { isLoading = false, data = [] } = hotelsResults;
     const isSortingFilterVisible = sortingFilterOptions.length > 0;
-
     const [isVerticalFiltersOpen, setIsVerticalFiltersOpen] = useState(false);
     const wrapperRef = useRef();
     const buttonRef = useRef();
@@ -90,16 +89,8 @@ const ResultsContainer = ({
                             ))
                         ) : data.length > 0 ? (
                             data.map((hotel, index) => (
-                                <Col key={hotel.hotelCode || index} xs={12}>
-                                    <HotelViewCard
-                                        id={hotel.hotelCode}
-                                        title={hotel.title}
-                                        image={hotel.images?.[0] || '/default-hotel.jpg'}
-                                        subtitle={hotel.subtitle}
-                                        benefits={hotel.benefits}
-                                        ratings={hotel.ratings}
-                                        price={hotel.price}
-                                    />
+                                <Col key={hotel.hotelId || index} xs={12}>
+                                    <HotelViewCard {...hotel} />
                                 </Col>
                             ))
                         ) : (
