@@ -8,13 +8,18 @@ import { formatDate } from '../../utils/formatDate';
 import { fetchNearbyHotels } from '../../store/hotel/nearbyHotelSlice';
 import { getPopularDestinations, getAvailableCities } from '../../api/homeAPI';
 import Search from './components/search/Search';
+import {fetchAllHotels} from "../../store/hotel/hotelSlice.js";
 const Home = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     // Redux state
-    const { data: hotelsResults, isLoading: hotelsLoading } = useSelector(
-        (state) => state.nearbyHotels
+    // const { data: hotelsResults, isLoading: hotelsLoading } = useSelector(
+    //     (state) => state.nearbyHotels
+    // );
+
+    const { hotels: hotelsResults, loading: hotelsLoading } = useSelector(
+        (state) => state.hotels
     );
 
     // Local state
@@ -85,8 +90,10 @@ const Home = () => {
     useEffect(() => {
         const getInitialData = async () => {
             // dispatch Redux call
-            dispatch(fetchNearbyHotels());
+            // dispatch(fetchNearbyHotels());
 
+            dispatch(fetchAllHotels())
+            // console.log(hotelsResults);
             // load popularDestinations
             const popularDestinationsResponse = await getPopularDestinations();
             const availableCitiesResponse = await getAvailableCities();
@@ -106,6 +113,8 @@ const Home = () => {
 
         getInitialData();
     }, [dispatch]);
+
+    // console.log(hotelsResults);
 
     return (
         <>

@@ -43,7 +43,8 @@ const HotelBookingDetailsCard = ({ hotelDetails }) => {
         }
 
         const bookingData = {
-            userId: currentUser.id,
+            userId: currentUser.userId,
+            // userId: currentUser.id,
             hotelId: hotelDetails.hotelId,
             roomName: selectedRoom,
             numRooms,
