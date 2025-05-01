@@ -14,6 +14,8 @@ public class UserMapper {
             user.getPhoneNumber(),
             user.getFirstName(),
             user.getLastName(),
+            user.getDateOfBirth(),
+            user.getNationality(),
             user.getRole()
         );
     }
@@ -27,6 +29,8 @@ public class UserMapper {
         user.setPhoneNumber(userDto.getPhoneNumber());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
+        user.setDateOfBirth(userDto.getDateOfBirth());
+        user.setNationality(userDto.getNationality());
         user.setRole(userDto.getRole());
 //        user.setRole(role);
 

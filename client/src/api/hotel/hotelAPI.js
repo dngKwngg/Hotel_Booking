@@ -3,6 +3,7 @@ import axiosInstance from '../axiosInstance';
 
 export const getAllHotels = async () => {
     const response = await axiosInstance.get('/api/v1/hotels');
+    // console.log(response.data);
     return response.data;
 };
 
