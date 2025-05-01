@@ -28,9 +28,10 @@ export const registerUser = createAsyncThunk(
 
 export const changePassword = createAsyncThunk(
     'auth/changePassword',
-    async (passwordData, { rejectWithValue }) => {
+    async (passwordData, { getState, rejectWithValue }) => {
         try {
-            const response = await axiosInstance.put('/api/v1/auth/change-password', passwordData);
+            const userId = getState().auth.user?.userId;
+            const response = await axiosInstance.put(`/api/v1/users/${userId}/change-password`, passwordData);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || 'Change password failed');
