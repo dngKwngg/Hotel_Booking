@@ -26,13 +26,22 @@ const reviewSlice = createSlice({
                 state.loading = true;
             })
             .addCase(fetchReviews.fulfilled, (state, action) => {
-                state.items = action.payload;
+                state.items = action.payload; // This must be an array
                 state.loading = false;
             })
             .addCase(submitReview.fulfilled, (state, action) => {
-                state.items = action.payload;
+                const updatedReview = action.payload;
+                const index = state.items.findIndex(
+                    (r) => r.userId === updatedReview.userId && r.hotelId === updatedReview.hotelId
+                );
+                if (index !== -1) {
+                    state.items[index] = updatedReview; // Update existing
+                } else {
+                    state.items.push(updatedReview); // Add new
+                }
             });
     },
 });
+
 
 export default reviewSlice.reducer;
