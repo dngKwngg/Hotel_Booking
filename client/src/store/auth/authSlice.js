@@ -64,6 +64,7 @@ const authSlice = createSlice({
             state.error = null;
             state.isLoading = false;
             localStorage.removeItem("user"); // nếu bạn dùng localStorage
+            Cookies.remove('accessToken');
         },
         clearAuthState: (state) => {
             state.loading = false;

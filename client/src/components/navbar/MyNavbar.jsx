@@ -1,12 +1,14 @@
 import { Navbar, Nav, Container, Dropdown } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logout } from "../../store/auth/authSlice";
 import { BsPersonCircle } from "react-icons/bs";
+import Cookies from 'js-cookie';
 const MyNavbar = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.auth.user); // ✅ Dùng user từ Redux
+    // const user = useSelector((state) => state.auth.user);
+    const accessToken = Cookies.get('accessToken');
 
     const handleLogout = () => {
         dispatch(logout());
@@ -45,7 +47,7 @@ const MyNavbar = () => {
                             textDecoration: isActive ? "underline" : "none"
                         })}>ABOUT US</Nav.Link>
 
-                        {!user ? (
+                        {!accessToken ? (
                             <Nav.Link as={NavLink} to="/login" style={({ isActive }) => ({
                                 color: "#FFFFFF",
                                 textDecoration: isActive ? "underline" : "none"
