@@ -146,3 +146,16 @@ ALTER TABLE users
 DROP COLUMN role_id,
     ADD COLUMN role VARCHAR(10) NOT NULL DEFAULT 'USER' CHECK (role IN ('ADMIN', 'USER'));
 
+-- 03.05.2025
+-- REMOVE COLUMN title IN reviews table
+ALTER TABLE reviews
+DROP COLUMN title;
+
+-- Rename the column "total_fare" to "total_price" in the bookings table
+ALTER TABLE bookings
+RENAME COLUMN total_fare TO total_price;
+
+-- 06.05.2025
+-- add field order code to bookings table
+ALTER TABLE bookings
+    ADD COLUMN order_code VARCHAR(255) DEFAULT NULL;

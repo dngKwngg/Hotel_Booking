@@ -3,6 +3,7 @@ import { DateRange } from "react-date-range";
 import { addDays } from "date-fns";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import axiosInstance from "../../../../api/axiosInstance.js";
 // import "./HotelBookingDetailsCard.scss";
 
 const HotelBookingDetailsCard = ({ hotelDetails }) => {
@@ -31,7 +32,7 @@ const HotelBookingDetailsCard = ({ hotelDetails }) => {
 
     const totalPrice = getRoomPrice() * nights * numRooms;
 
-    const handleBooking = () => {
+    const handleBooking = async () => {
         if (!currentUser) {
             setError("⚠ Bạn cần đăng nhập để đặt phòng.");
             return;
@@ -48,15 +49,31 @@ const HotelBookingDetailsCard = ({ hotelDetails }) => {
             hotelId: hotelDetails.hotelId,
             roomName: selectedRoom,
             numRooms,
-            startDate: dateRange[0].startDate,
-            endDate: dateRange[0].endDate,
+            checkinDate: dateRange[0].startDate,
+            checkoutDate: dateRange[0].endDate,
+            bookingDate: new Date(),
+            description: selectedRoom,
+            // return url: localhost:5173/payment-success
+            returnUrl: import.meta.env.VITE_FRONTEND_URL + "/payment-success",
+            cancelUrl: import.meta.env.VITE_FRONTEND_URL + "/payment-cancel",
             totalPrice,
         };
 
-        console.log("✅ Booking Data:", bookingData);
-        setError("");
-        // 👉 call API ở đây để gửi bookingData
-        alert("🎉 Đặt phòng thành công!");
+        try {
+            // const response = await axiosInstance.post("/api/v1/bookings/create", bookingData);
+            const payOsResult = await axiosInstance.post("/api/v1/bookings/create-payos", bookingData);
+            const orderCode = payOsResult.data.data.orderCode.toString();
+            // console.log(orderCode);
+            const response = await axiosInstance.post(`/api/v1/bookings/create/${orderCode}`, bookingData);
+            // console.log("✅ PayOs Result:", payOsResult.data);
+            console.log("✅ Booking created:", response.data);
+            // alert("🎉 Đặt phòng thành công!");
+            window.location.href = payOsResult.data.data.checkoutUrl;
+            setError("");
+        } catch (error) {
+            console.error("❌ Lỗi khi đặt phòng:", error);
+            setError("❌ Có lỗi xảy ra khi đặt phòng.");
+        }
     };
 
     return (
