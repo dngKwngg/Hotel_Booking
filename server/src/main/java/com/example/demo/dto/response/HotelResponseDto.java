@@ -14,6 +14,7 @@ public class HotelResponseDto {
     private String name;
     private String description;
     private String provinceName;
+    private Double rating;
     private List<HotelRoomResponseDto> hotelRooms;
     private List<HotelAmenityResponseDto> hotelAmenities;
 }

@@ -7,14 +7,8 @@ import axiosInstance from "../../api/axiosInstance.js";
 import {useEffect} from "react";
 
 const PaymentCancel = () => {
-
     // Extract the query parameters from the URL
-    // http://localhost:5173/payment-cancel?code=00&id=31a5a672b2fe47bb89c2832742b3d719&cancel=true&status=CANCELLED&orderCode=85572482
-
     const queryParams = new URLSearchParams(window.location.search);
-    const code = queryParams.get("code");
-    const id = queryParams.get("id");
-    const cancel = queryParams.get("cancel");
     const status = queryParams.get("status");
     const orderCode = queryParams.get("orderCode");
 

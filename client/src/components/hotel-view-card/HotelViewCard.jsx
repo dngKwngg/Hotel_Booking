@@ -7,6 +7,7 @@ const HotelViewCard = ({
     hotelId,
     name,
     description,
+    rating,
     hotelRooms = [],
     hotelAmenities = [],
 }) => {
@@ -18,7 +19,7 @@ const HotelViewCard = ({
     );
 
     const price = cheapestRoom?.price || 0;
-    const ratings = Math.floor(Math.random() * 3) + 3; // Mock rating: 3 ~ 5
+    // const ratings = Math.floor(Math.random() * 3) + 3; // Mock rating: 3 ~ 5
 
     const onBookNowClick = () => {
         navigate(`/hotel/${hotelId}`);
@@ -53,7 +54,7 @@ const HotelViewCard = ({
                     </div>
                     <div className="card-footer bg-white d-flex justify-content-between align-items-center border-0">
                         <span className="badge bg-primary text-white px-3 py-2" style={{ fontSize: '1rem' }}>
-                            {ratings} <FontAwesomeIcon icon={faStar} className="ms-1" />
+                            {rating} <FontAwesomeIcon icon={faStar} className="ms-1" />
                         </span>
                         <div className="text-end">
                             <div className="fw-bold text-dark mb-2" style={{ fontSize: '1rem' }}>

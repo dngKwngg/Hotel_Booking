@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.BookingDto;
 import com.example.demo.dto.request.BookingUpdateStatusRequest;
 import com.example.demo.dto.request.CreatePaymentLinkRequestDto;
+import com.example.demo.dto.response.BookingResponseDto;
 import com.example.demo.service.BookingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -12,6 +13,8 @@ import vn.payos.PayOS;
 import vn.payos.type.CheckoutResponseData;
 import vn.payos.type.ItemData;
 import vn.payos.type.PaymentData;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("${api.version}/bookings")
@@ -68,7 +71,7 @@ public class BookingController {
     }
 
     @PostMapping("/create/{orderCode}")
-    public BookingDto createBooking(@RequestBody BookingDto bookingDto, @PathVariable String orderCode) {
+    public BookingResponseDto createBooking(@RequestBody BookingDto bookingDto, @PathVariable String orderCode) {
         // Implement your logic to create a booking
         return bookingService.createBooking(bookingDto, orderCode);
     }
@@ -78,5 +81,11 @@ public class BookingController {
         bookingService.updateStatusByOrderCode(request);
         // Implement your logic to update the booking status
         return ResponseEntity.ok("Booking status updated");
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<BookingResponseDto>> getAllBookingsByUserId(@PathVariable Long userId) {
+        List<BookingResponseDto> bookings = bookingService.getAllBookingsByUserId(userId);
+        return ResponseEntity.ok(bookings);
     }
 }

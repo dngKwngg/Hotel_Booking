@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dto.request.BookingUpdateStatusRequest;
+import com.example.demo.dto.response.BookingResponseDto;
 import com.example.demo.entities.Booking;
 import com.example.demo.entities.Hotel;
 import com.example.demo.entities.User;
@@ -11,6 +12,9 @@ import com.example.demo.repository.HotelRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.BookingService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -30,7 +34,7 @@ public class BookingServiceImpl implements BookingService {
      * @return the created booking data transfer object
      */
     @Override
-    public BookingDto createBooking(BookingDto bookingDto, String orderCode) {
+    public BookingResponseDto createBooking(BookingDto bookingDto, String orderCode) {
         User user = userRepository.findById(bookingDto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -41,16 +45,26 @@ public class BookingServiceImpl implements BookingService {
         booking.setOrderCode(orderCode);
         Booking savedBooking = bookingRepository.save(booking);
 
-        return BookingMapper.toBookingDto(savedBooking);
+        return BookingMapper.toBookingResponseDto(savedBooking);
     }
 
-    public BookingDto updateStatusByOrderCode(BookingUpdateStatusRequest request) {
+    public BookingResponseDto updateStatusByOrderCode(BookingUpdateStatusRequest request) {
         Booking booking = bookingRepository.findByOrderCode(request.getOrderCode())
                 .orElseThrow(() -> new RuntimeException("Booking not found"));
 
         booking.setStatusPayment(request.getStatus());
         Booking updatedBooking = bookingRepository.save(booking);
 
-        return BookingMapper.toBookingDto(updatedBooking);
+        return BookingMapper.toBookingResponseDto(updatedBooking);
+    }
+
+    public List<BookingResponseDto> getAllBookingsByUserId(Long userId) {
+        List<Booking> bookings = bookingRepository.findByUserId(userId);
+//                .orElseThrow(() -> new RuntimeException("No bookings found for user"));
+
+        return bookings.stream()
+                .filter(booking -> booking.getStatusPayment().equals("paid"))
+                .map(BookingMapper::toBookingResponseDto)
+                .collect(Collectors.toList());
     }
 }
