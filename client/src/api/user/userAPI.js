@@ -7,7 +7,7 @@ export const getUserProfile = async (userId) => {
 };
 
 export const getUserBookings = async (userId) => {
-    const response = await axiosInstance.get(`/api/users/bookings/${userId}`);
+    const response = await axiosInstance.get(`/api/v1/bookings/user/${userId}`);
     return response.data;
 };
 

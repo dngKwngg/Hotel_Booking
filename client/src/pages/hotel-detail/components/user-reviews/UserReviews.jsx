@@ -12,7 +12,7 @@ const UserReviews = ({ hotelId }) => {
     const user = localStorage.getItem("user");
     const accountId = user ? JSON.parse(user).userId : null;
     const { items: reviews, loading } = useSelector((state) => state.reviews);
-    console.log("✅ Reviews:", reviews);
+    // console.log("✅ Reviews:", reviews);
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
 
@@ -25,6 +25,7 @@ const UserReviews = ({ hotelId }) => {
 
     // Lấy review của user hiện tại nếu có
     const userReview = reviews.find((r) => r.userId === accountId);
+
 
     useEffect(() => {
         if (userReview) {
@@ -50,7 +51,10 @@ const UserReviews = ({ hotelId }) => {
     // Xử lý submit hoặc update review
     const handleSubmit = () => {
         if (!isLoggedIn) return navigate("/login");
-
+        console.log(
+            "Submitting review:",
+            { hotelId, userId: accountId, rating, comment }
+        )
         dispatch(
             submitReview({
                 hotelId,

@@ -68,7 +68,7 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
 
                     {/* 👉 Component review */}
                     <div className="mt-5">
-                        <UserReviews hotelCode={hotelDetails.hotelCode} />
+                        <UserReviews hotelId={hotelDetails.hotelId} />
                     </div>
                 </div>
 

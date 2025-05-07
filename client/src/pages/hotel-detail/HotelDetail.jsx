@@ -11,7 +11,7 @@ const HotelDetails = () => {
   // console.log(hotelId);
   const hotelDetails = useSelector((state) => state.hotels.currentHotel);
   const isLoading = useSelector((state) => state.hotels.isLoading); // ✅ đúng state
-  // console.log('hotelDetails', hotelDetails);
+  console.log('hotelDetails', hotelDetails);
   useEffect(() => {
     if (hotelId) {
       dispatch(fetchHotelById(hotelId));

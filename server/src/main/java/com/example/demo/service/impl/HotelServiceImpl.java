@@ -7,13 +7,11 @@ import com.example.demo.dto.response.HotelRoomResponseDto;
 import com.example.demo.entities.Hotel;
 import com.example.demo.entities.HotelRoom;
 import com.example.demo.entities.Province;
+import com.example.demo.entities.Review;
 import com.example.demo.mapper.HotelAmenityMapper;
 import com.example.demo.mapper.HotelMapper;
 import com.example.demo.mapper.HotelRoomMapper;
-import com.example.demo.repository.HotelAmenityRepository;
-import com.example.demo.repository.HotelRepository;
-import com.example.demo.repository.HotelRoomRepository;
-import com.example.demo.repository.ProvinceRepository;
+import com.example.demo.repository.*;
 import com.example.demo.service.HotelService;
 import org.springframework.stereotype.Service;
 
@@ -27,12 +25,14 @@ public class HotelServiceImpl implements HotelService {
     private final ProvinceRepository provinceRepository;
     private final HotelRoomRepository hotelRoomRepository;
     private final HotelAmenityRepository hotelAmenityRepository;
+    private final ReviewRepository reviewRepository;
 
-    public HotelServiceImpl(HotelRepository hotelRepository, ProvinceRepository provinceRepository, HotelRoomRepository hotelRoomRepository, HotelAmenityRepository hotelAmenityRepository) {
+    public HotelServiceImpl(HotelRepository hotelRepository, ProvinceRepository provinceRepository, HotelRoomRepository hotelRoomRepository, HotelAmenityRepository hotelAmenityRepository, ReviewRepository reviewRepository) {
         this.hotelRepository = hotelRepository;
         this.provinceRepository = provinceRepository;
         this.hotelRoomRepository = hotelRoomRepository;
         this.hotelAmenityRepository = hotelAmenityRepository;
+        this.reviewRepository = reviewRepository;
     }
 
 
@@ -42,6 +42,19 @@ public class HotelServiceImpl implements HotelService {
             HotelResponseDto hotelResponseDto = HotelMapper.toHotelDto(hotel);
             hotelResponseDto.setHotelRooms(getHotelRoomsByHotelId(hotel.getHotelId()));
             hotelResponseDto.setHotelAmenities(getHotelAmenitiesByHotelId(hotel.getHotelId()));
+
+            // Get reviews for the hotel
+            List<Review> reviews = reviewRepository.findAllByHotelId(hotel.getHotelId());
+            // Calculate average rating
+            double averageRating = reviews.stream()
+                    .mapToDouble(Review::getRating)
+                    .average()
+                    .orElse(0.0);
+
+            // Round to 1 decimal place
+            averageRating = Math.round(averageRating * 10.0) / 10.0;
+            // Set average rating to hotel response DTO
+            hotelResponseDto.setRating(averageRating);
             return hotelResponseDto;
         }).collect(Collectors.toList());
     }
