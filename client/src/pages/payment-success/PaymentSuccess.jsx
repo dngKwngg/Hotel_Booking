@@ -36,7 +36,7 @@ const PaymentSuccess = () => {
                     {/* Ant Design CloseCircleOutlined Icon */}
                     <CheckCircleOutlined style={{ fontSize: "64px", color: "#333" }} />
                 </div>
-                <h1 className="text-2xl font-bold mb-2 mt-3">Payment Cancelled</h1>
+                <h1 className="text-2xl font-bold mb-2 mt-3">Payment Successful</h1>
                 <p className="text-gray-600 mb-6 mt-3">Your payment has been paid. Thank you for booking rooms.</p>
 
                 {/*{paymentInfo.orderCode && <p className="text-sm text-gray-500 mb-6">Order Code: {paymentInfo.orderCode}</p>}*/}

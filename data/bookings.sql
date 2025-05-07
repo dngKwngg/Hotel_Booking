@@ -1,0 +1,4 @@
+INSERT INTO public.bookings (id, user_id, hotel_id, checkin_date, checkout_date, total_price, booking_date, status_payment, order_code) VALUES (14, 1, 1, '2025-05-06', '2025-05-07', 491000, '2025-05-06 18:18:45.501000', 'paid', '30325513');
+INSERT INTO public.bookings (id, user_id, hotel_id, checkin_date, checkout_date, total_price, booking_date, status_payment, order_code) VALUES (15, 1, 1, '2025-05-06', '2025-05-07', 491000, '2025-05-06 18:20:36.476000', 'cancelled', '30436488');
+INSERT INTO public.bookings (id, user_id, hotel_id, checkin_date, checkout_date, total_price, booking_date, status_payment, order_code) VALUES (16, 3, 1, '2025-05-06', '2025-05-07', 589000, '2025-05-07 01:05:54.929000', 'paid', '54754956');
+INSERT INTO public.bookings (id, user_id, hotel_id, checkin_date, checkout_date, total_price, booking_date, status_payment, order_code) VALUES (17, 3, 2, '2025-05-06', '2025-05-07', 661000, '2025-05-07 05:46:31.179000', 'paid', '71591214');
