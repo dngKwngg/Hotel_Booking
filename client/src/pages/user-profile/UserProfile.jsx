@@ -14,6 +14,7 @@ const UserProfile = () => {
     useEffect(() => {
         if (user?.userId) {
             dispatch(fetchUserProfile(user.userId));
+            dispatch(fetchUserBookings(user.userId));
         }
     }, [dispatch, user]);
 
@@ -35,9 +36,9 @@ const UserProfile = () => {
                                     <Nav.Item>
                                         <Nav.Link eventKey="bookings">📅 Bookings</Nav.Link>
                                     </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link eventKey="payments">💳 Payment Methods</Nav.Link>
-                                    </Nav.Item>
+                                    {/*<Nav.Item>*/}
+                                    {/*    <Nav.Link eventKey="payments">💳 Payment Methods</Nav.Link>*/}
+                                    {/*</Nav.Item>*/}
                                 </Nav>
                             </Col>
 
@@ -50,9 +51,9 @@ const UserProfile = () => {
                                     <Tab.Pane eventKey="bookings">
                                         <BookingPanel bookings={bookings} />
                                     </Tab.Pane>
-                                    <Tab.Pane eventKey="payments">
-                                        <PaymentMethodsPanel paymentMethods={paymentMethods} />
-                                    </Tab.Pane>
+                                    {/*<Tab.Pane eventKey="payments">*/}
+                                    {/*    <PaymentMethodsPanel paymentMethods={paymentMethods} />*/}
+                                    {/*</Tab.Pane>*/}
                                 </Tab.Content>
                             </Col>
                         </Row>

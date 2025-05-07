@@ -1,0 +1,11 @@
+INSERT INTO public.amenities (id, name, description) VALUES (1, 'Spa', 'For hotel guests only');
+INSERT INTO public.amenities (id, name, description) VALUES (2, 'Free Wifi', 'For hotel guests only');
+INSERT INTO public.amenities (id, name, description) VALUES (3, 'Swimming Pool', 'For hotel guests only');
+INSERT INTO public.amenities (id, name, description) VALUES (4, 'Parking Area', 'For hotel guests only');
+INSERT INTO public.amenities (id, name, description) VALUES (5, 'Free Breakfast', 'For hotel guests only');
+INSERT INTO public.amenities (id, name, description) VALUES (6, 'Pets allowed', 'For hotel guests only');
+INSERT INTO public.amenities (id, name, description) VALUES (7, 'Gym/Fitness Center', 'For hotel guests only');
+INSERT INTO public.amenities (id, name, description) VALUES (8, 'Non-smoking Rooms', 'For hotel guests only');
+INSERT INTO public.amenities (id, name, description) VALUES (9, 'Bicycle Rental', 'For hotel guests only');
+INSERT INTO public.amenities (id, name, description) VALUES (10, 'Laundry Service', 'For hotel guests only');
+INSERT INTO public.amenities (id, name, description) VALUES (11, 'Bar/Lounge', 'For hotel guests only');

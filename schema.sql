@@ -135,3 +135,27 @@ ADD COLUMN quantity INT NOT NULL CHECK (quantity > 0),
 ADD COLUMN price_per_night INT NOT NULL CHECK (price_per_night >= 0),
 ADD COLUMN total_price INT GENERATED ALWAYS AS (quantity * price_per_night) STORED;
 
+-- 20.04.2025
+-- Add fields for USER table (To update profile)
+-- Change role_id to role
+ALTER TABLE users
+    ADD COLUMN date_of_birth DATE,
+    ADD COLUMN nationality VARCHAR(100);
+
+ALTER TABLE users
+DROP COLUMN role_id,
+    ADD COLUMN role VARCHAR(10) NOT NULL DEFAULT 'USER' CHECK (role IN ('ADMIN', 'USER'));
+
+-- 03.05.2025
+-- REMOVE COLUMN title IN reviews table
+ALTER TABLE reviews
+DROP COLUMN title;
+
+-- Rename the column "total_fare" to "total_price" in the bookings table
+ALTER TABLE bookings
+RENAME COLUMN total_fare TO total_price;
+
+-- 06.05.2025
+-- add field order code to bookings table
+ALTER TABLE bookings
+    ADD COLUMN order_code VARCHAR(255) DEFAULT NULL;

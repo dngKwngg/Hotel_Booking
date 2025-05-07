@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -24,12 +25,10 @@ public class SecurityConfig {
     @Value("${api.version}")
     private String apiVersion;
 
-    private UserDetailsService userDetailsService;
     private JwtFilter jwtFilter;
 
     @Autowired
-    public SecurityConfig(UserDetailsService userDetailsService, JwtFilter jwtFilter) {
-        this.userDetailsService = userDetailsService;
+    public SecurityConfig(JwtFilter jwtFilter) {
         this.jwtFilter = jwtFilter;
     }
 
@@ -40,7 +39,10 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(("/" + apiVersion + "/auth/**")).permitAll()
+                        .requestMatchers("/" + apiVersion + "/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/" + apiVersion + "/hotels").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/" + apiVersion + "/hotels/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/" + apiVersion + "/reviews/**").permitAll()
                         .anyRequest().authenticated()
 //                        .anyRequest().permitAll()
                 )
@@ -54,6 +56,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    // This bean is used to authenticate the user
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();

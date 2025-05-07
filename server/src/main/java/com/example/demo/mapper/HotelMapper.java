@@ -1,24 +1,25 @@
 package com.example.demo.mapper;
 
-import com.example.demo.dto.HotelDto;
+import com.example.demo.dto.request.HotelRequestDto;
+import com.example.demo.dto.response.HotelResponseDto;
 import com.example.demo.entities.Hotel;
 import com.example.demo.entities.Province;
 
 public class HotelMapper {
-    public static HotelDto toHotelDto(Hotel hotel) {
-        HotelDto hotelDto = new HotelDto();
-        hotelDto.setHotelId(hotel.getHotelId());
-        hotelDto.setName(hotel.getName());
-        hotelDto.setDescription(hotel.getDescription());
-        hotelDto.setProvinceId(hotel.getProvince().getProvinceId());
-        return hotelDto;
+    public static HotelResponseDto toHotelDto(Hotel hotel) {
+        HotelResponseDto hotelResponseDto = new HotelResponseDto();
+        hotelResponseDto.setHotelId(hotel.getHotelId());
+        hotelResponseDto.setName(hotel.getName());
+        hotelResponseDto.setDescription(hotel.getDescription());
+        hotelResponseDto.setProvinceName(hotel.getProvince().getName());
+        return hotelResponseDto;
     }
 
-    public static Hotel toHotel(HotelDto hotelDto, Province province) {
+    public static Hotel toHotel(HotelRequestDto hotelRequestDto, Province province) {
         Hotel hotel = new Hotel();
-        hotel.setHotelId(hotelDto.getHotelId());
-        hotel.setName(hotelDto.getName());
-        hotel.setDescription(hotelDto.getDescription());
+        hotel.setHotelId(hotelRequestDto.getHotelId());
+        hotel.setName(hotelRequestDto.getName());
+        hotel.setDescription(hotelRequestDto.getDescription());
         hotel.setProvince(province);
         return hotel;
     }

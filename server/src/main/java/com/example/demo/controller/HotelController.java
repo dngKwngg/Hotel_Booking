@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.HotelDto;
+import com.example.demo.dto.request.HotelRequestDto;
+import com.example.demo.dto.response.HotelResponseDto;
 import com.example.demo.service.HotelService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,24 +19,24 @@ public class HotelController {
     }
 
     @GetMapping
-    public List<HotelDto> getAllHotels() {
+    public List<HotelResponseDto> getAllHotels() {
         return hotelService.getAllHotels();
     }
 
     @GetMapping("/{id}")
-    public HotelDto getHotelById(@PathVariable Long id) {
+    public HotelResponseDto getHotelById(@PathVariable Long id) {
         return hotelService.getHotelById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public HotelDto createHotel(@RequestBody HotelDto hotelDto) {
-        return hotelService.createHotel(hotelDto);
+    public HotelResponseDto createHotel(@RequestBody HotelRequestDto hotelRequestDto) {
+        return hotelService.createHotel(hotelRequestDto);
     }
 
     @PutMapping("/{id}")
-    public HotelDto updateHotel(@PathVariable Long id, @RequestBody HotelDto hotelDto) {
-        return hotelService.updateHotel(id, hotelDto);
+    public HotelResponseDto updateHotel(@PathVariable Long id, @RequestBody HotelRequestDto hotelRequestDto) {
+        return hotelService.updateHotel(id, hotelRequestDto);
     }
 
     @DeleteMapping("/{id}")

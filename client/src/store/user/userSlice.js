@@ -14,6 +14,18 @@ export const fetchUserProfile = createAsyncThunk(
     }
 );
 
+export const updateProfile = createAsyncThunk(
+    'user/updateProfile',
+    async (data, { getState, rejectWithValue }) => {
+        const userId = getState().auth.user?.userId;
+        if (!userId) return rejectWithValue('User ID not found');
+        try {
+            return await updateProfile(userId, data);
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || 'Failed to update profile');
+        }
+    }
+)
 export const fetchUserBookings = createAsyncThunk(
     'user/fetchUserBookings',
     async (_, { getState, rejectWithValue }) => {
@@ -64,7 +76,18 @@ const userSlice = createSlice({
                 state.isLoading = false;
                 state.error = action.payload;
             })
-
+            .addCase(updateProfile.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(updateProfile.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.profile = action.payload;
+            })
+            .addCase(updateProfile.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
             .addCase(fetchUserBookings.pending, (state) => {
                 state.isLoading = true;
                 state.error = null;

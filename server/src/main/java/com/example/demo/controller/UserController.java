@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.UserDto;
+import com.example.demo.dto.request.PasswordChangeDto;
 import com.example.demo.dto.request.UserRegisterDto;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +52,12 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok("User deleted");
+    }
+
+    // Change password
+    @PutMapping("/{id}/change-password") // PUT /api/v1/users/{id}/change-password
+    public ResponseEntity<?> changePassword(@PathVariable Long id, @RequestBody PasswordChangeDto passwordChangeDto) {
+        userService.changePassword(id, passwordChangeDto.getCurrentPassword(), passwordChangeDto.getNewPassword());
+        return ResponseEntity.ok("Password changed successfully");
     }
 }

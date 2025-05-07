@@ -34,6 +34,7 @@ const ChangePassword = () => {
 
     const onSubmit = async (data) => {
         const { currentPassword, newPassword } = data;
+        // console.log(data);
         const res = await dispatch(changePassword({ currentPassword, newPassword }));
 
         if (res.meta.requestStatus === 'fulfilled') {

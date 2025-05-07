@@ -5,7 +5,7 @@ import * as z from 'zod';
 import { Form, Button, Card, Toast, Row, Col, Spinner } from 'react-bootstrap';
 import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
-// import { fetchUserProfile } from '../../../store/userSlice';// Schema validation
+import { updateProfile } from '../../../api/user/userAPI';
 const formSchema = z.object({
     firstName: z.string().min(1, 'Firstname is required'),
     lastName: z.string().min(1, 'Lastname is required'),
@@ -16,7 +16,8 @@ const formSchema = z.object({
 
 const ProfileDetailsPanel = ({ userDetails }) => {
     const dispatch = useDispatch();
-    const { user, isLoading, error } = useSelector((state) => state.user);
+    const { isLoading, error } = useSelector((state) => state.user);
+    const { user } = useSelector((state) => state.auth);
 
     const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm({
         resolver: zodResolver(formSchema),
@@ -64,7 +65,9 @@ const ProfileDetailsPanel = ({ userDetails }) => {
     }, [user, setValue]);
 
     const onSubmit = async (data) => {
-        const resultAction = await dispatch(updateProfile(data));
+        const id = user.userId;
+        console.table(data);
+        const resultAction = await dispatch(updateProfile(id, data));
         if (updateProfile.fulfilled.match(resultAction)) {
             setToastMessage({ type: 'success', message: 'Profile updated successfully!' });
             setIsEditMode(false);

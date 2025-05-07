@@ -14,12 +14,14 @@ public class UserMapper {
             user.getPhoneNumber(),
             user.getFirstName(),
             user.getLastName(),
-            user.getRole().getRoleId()
+            user.getDateOfBirth(),
+            user.getNationality(),
+            user.getRole()
         );
     }
 
     //userDto -> user
-    public static User mapToUser(UserDto userDto, Role role) {
+    public static User mapToUser(UserDto userDto) {
         User user = new User();
         user.setUserId(userDto.getUserId());
         user.setEmail(userDto.getEmail());
@@ -27,7 +29,10 @@ public class UserMapper {
         user.setPhoneNumber(userDto.getPhoneNumber());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
-        user.setRole(role);
+        user.setDateOfBirth(userDto.getDateOfBirth());
+        user.setNationality(userDto.getNationality());
+        user.setRole(userDto.getRole());
+//        user.setRole(role);
 
         return user;
     }

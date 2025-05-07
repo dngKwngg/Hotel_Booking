@@ -20,6 +20,9 @@ public class JwtUtils {
     @Value("${jwt.secret}")
     private String SECKET_KEY;
 
+    // Get Secret Key
+    // This method is used to get the secret key for signing the JWT token
+    // It uses the HMAC SHA algorithm to generate the key
     private SecretKey getSecretKey() {
         return Keys.hmacShaKeyFor(SECKET_KEY.getBytes());
     }
@@ -38,6 +41,11 @@ public class JwtUtils {
     }
 
     // Validate JWT Access Token
+    // This method is used to validate the JWT token
+    // It checks if the token is expired or not
+    // If the token is expired, it throws an exception
+    // If the token is valid, it returns true
+    // If the token is invalid, it returns false
     public boolean validateAccessToken(String token) {
         try {
             Jwts.parserBuilder()

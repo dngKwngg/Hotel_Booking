@@ -34,19 +34,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto createUser(UserRegisterDto requestDto) {
-        UserDto userDto = new UserDto(
-                requestDto.getUserId(),
-                requestDto.getEmail(),
-                requestDto.getUsername(),
-                requestDto.getPhoneNumber(),
-                requestDto.getFirstName(),
-                requestDto.getLastName(),
-                requestDto.getRoleId()
-        );
+        String role = "USER";
+        if (requestDto.getRole() != null){
+            role = requestDto.getRole();
+        }
 
-        Role role = roleRepository.findById(requestDto.getRoleId()).orElseThrow(() -> new RuntimeException("Role not found"));
+        UserDto userDto = new UserDto();
+        userDto.setEmail(requestDto.getEmail());
+        userDto.setUsername(requestDto.getUsername());
+        userDto.setPhoneNumber(requestDto.getPhoneNumber());
+        userDto.setFirstName(requestDto.getFirstName());
+        userDto.setLastName(requestDto.getLastName());
+        userDto.setRole(role);
 
-        User user = UserMapper.mapToUser(userDto, role);
+//        Role role = roleRepository.findById(requestDto.getRoleId()).orElseThrow(() -> new RuntimeException("Role not found"));
+
+        User user = UserMapper.mapToUser(userDto);
 
         // hash requestDto.getPassword
         // temp bcrypt
@@ -66,6 +69,8 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setPhoneNumber(userDto.getPhoneNumber());
+        user.setDateOfBirth(userDto.getDateOfBirth());
+        user.setNationality(userDto.getNationality());
 
         User savedUser = userRepository.save(user);
         return UserMapper.mapToUserDto(savedUser);
@@ -82,5 +87,18 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> getAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream().map(UserMapper::mapToUserDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public void changePassword(Long id, String oldPassword, String newPassword) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        if (BCrypt.verifyer().verify(oldPassword.toCharArray(), user.getPassword()).verified) {
+            BCrypt.Hasher hasher = BCrypt.withDefaults();
+            String hashedPassword = hasher.hashToString(12, newPassword.toCharArray());
+            user.setPassword(hashedPassword);
+            userRepository.save(user);
+        } else {
+            throw new RuntimeException("Old password is incorrect");
+        }
     }
 }

@@ -6,6 +6,10 @@ import Register from "./pages/register/Register";
 import UserProfile from "./pages/user-profile/UserProfile";
 import About from "./pages/about-us/About";
 import ChangePassword from "./pages/change-password/ChangePassword";
+import ForgotPassword from "./pages/forgot-password/ForgotPassword";
+import HotelDetails from "./pages/hotel-detail/HotelDetail";
+import PaymentSuccess from "./pages/payment-success/PaymentSuccess";
+import PaymentCancel from "./pages/payment-cancel/PaymentCancel";
 const AppRouters = () => {
     return (
         <Routes>
@@ -16,6 +20,13 @@ const AppRouters = () => {
             <Route path="/user-profile" element={<UserProfile />} />
             <Route path="about" element={<About />} />
             <Route path="/change-password" element={<ChangePassword />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
+            <Route path="/hotel/:hotelId" element={<HotelDetails />} />
+            <Route path="payment-success" element={<PaymentSuccess />} />
+            <Route path="payment-cancel" element={<PaymentCancel />} />
+            {/* Add more routes as needed */}
+            {/* <Route path="/hotel/:hotelId" element={<HotelDetails />} /> */}
+            {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>
     );
 };

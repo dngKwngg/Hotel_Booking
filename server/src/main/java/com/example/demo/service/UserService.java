@@ -13,4 +13,6 @@ public interface UserService {
     UserDto updateUser(Long id, UserDto userDto);
     void deleteUser(Long id);
     List<UserDto> getAllUsers();
+    // Change password function
+    void changePassword(Long id, String oldPassword, String newPassword);
 }
