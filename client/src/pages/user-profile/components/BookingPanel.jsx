@@ -130,7 +130,7 @@ const BookingPanel = ({ bookings }) => {
             // rowKey="bookingId"
             className="mt-4"
             bordered
-            // style={{ backgroundColor: 'white', borderRadius: '8px' }}
+            // style={{ marginTop: 0 }}
         />
     );
 };

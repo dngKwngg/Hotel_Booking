@@ -12,6 +12,7 @@ import com.example.demo.repository.HotelRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.BookingService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +34,7 @@ public class BookingServiceImpl implements BookingService {
      * @param bookingDto the booking data transfer object
      * @return the created booking data transfer object
      */
+    @Transactional
     @Override
     public BookingResponseDto createBooking(BookingDto bookingDto, String orderCode) {
         User user = userRepository.findById(bookingDto.getUserId())
@@ -41,6 +43,7 @@ public class BookingServiceImpl implements BookingService {
         Hotel hotel = hotelRepository.findById(bookingDto.getHotelId())
                 .orElseThrow(() -> new RuntimeException("Hotel not found"));
 
+        // Implement logic booking
         Booking booking = BookingMapper.toBooking(bookingDto, user, hotel);
         booking.setOrderCode(orderCode);
         Booking savedBooking = bookingRepository.save(booking);
